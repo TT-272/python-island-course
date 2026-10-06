@@ -8,6 +8,7 @@ type Req = {
   code: string;
   stdin?: string;
   tests?: { name: string; code: string }[];
+  requires?: string[];
 };
 
 let pyodide: any = null;
@@ -28,12 +29,12 @@ async function boot() {
 }
 
 self.onmessage = async (ev: MessageEvent<Req>) => {
-  const { id, code, stdin, tests } = ev.data;
+  const { id, code, stdin, tests, requires } = ev.data;
   const t0 = performance.now();
   try {
     const py = await boot();
     const run = py.globals.get('_run');
-    const json = run(code, stdin ?? '', py.toPy(tests ?? []));
+    const json = run(code, stdin ?? '', py.toPy(tests ?? []), py.toPy(requires ?? []));
     run.destroy?.();
     const result = JSON.parse(json);
     (self as any).postMessage({

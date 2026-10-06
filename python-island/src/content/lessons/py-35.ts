@@ -19,6 +19,7 @@ export const py35: Lesson = {
   exercise: {
     prompt: '写一个函数 say_hi，让它打印 你好！\n\n然后调用它三次。\n\n（预期输出三行，每行都是 你好！）',
     starterCode: '# 1. 定义函数 say_hi，让它打印 你好！\n\n# 2. 调用它三次\n\n',
+    requires: ['def'],
     tests: [
       {
         name: '三行都对',

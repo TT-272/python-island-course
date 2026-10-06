@@ -55,7 +55,7 @@ export function EnginePage() {
     setContentRows([]);
     const rows: { id: string; title: string; ok: boolean; detail: string }[] = [];
     for (const l of LESSONS) {
-      const r = await judge.run(l.exercise.solution, { stdin: l.exercise.stdin, tests: l.exercise.tests });
+      const r = await judge.run(l.exercise.solution, { stdin: l.exercise.stdin, tests: l.exercise.tests, requires: l.exercise.requires });
       const failed = r.error || r.timedOut || !r.ok || r.tests.some((t) => !t.passed);
       const bad = r.tests.find((t) => !t.passed);
       rows.push({

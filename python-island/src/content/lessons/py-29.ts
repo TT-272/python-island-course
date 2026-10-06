@@ -19,6 +19,7 @@ export const py29: Lesson = {
   exercise: {
     prompt: '用 while 倒数：打印 5、4、3、2、1，一行一个。\n\n（从 5 开始，每圈减 1，减到 0 就停。减 1 要用简写 n -= 1）',
     starterCode: '# 用 while 倒数：5 → 1，一行一个\n# 提示：n 从 5 开始，每圈用简写 n -= 1 减 1，条件是 n >= 1\n\n',
+    requires: ['while'],
     tests: [
       {
         name: '一共五行',

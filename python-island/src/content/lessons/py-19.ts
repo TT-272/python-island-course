@@ -21,6 +21,7 @@ export const py19: Lesson = {
     starterCode: '# 点歌台\n# 1. 歌单从 ["稻香", "晴天"] 开始\n\n# 2. 问用户想加哪首歌，加到末尾\n\n# 3. 把 "晴天" 拿掉\n\n# 4. 打印一共几首\n\n# 5. 打印整个歌单\n',
     // 运行和判分时自动喂给 input() 的答案
     stdin: '夜曲',
+    requires: ['input', 'list'],
     tests: [
       {
         name: '歌单对了',

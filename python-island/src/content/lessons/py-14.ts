@@ -20,6 +20,7 @@ export const py14: Lesson = {
   exercise: {
     prompt: 'scores 里装着 [8, 3, 10, 5]。\n\n先自己算一遍，再写七行 print，依次输出：\n\n1. 一共几个\n2. 加起来多少\n3. 最大的\n4. 最小的\n5. 从小到大排好\n6. max(3, 5) 的结果\n7. pow(2, 3) 的结果\n\n（先猜答案，再点运行对一下）',
     starterCode: 'scores = [8, 3, 10, 5]\n\n# 七行 print：数量、总和、最大、最小、排好序、max(3, 5)、pow(2, 3)\n\n',
+    requires: ['list'],
     tests: [
       {
         name: '一共七行',

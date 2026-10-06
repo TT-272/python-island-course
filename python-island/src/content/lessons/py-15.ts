@@ -18,6 +18,7 @@ export const py15: Lesson = {
   exercise: {
     prompt: 'bag 已经建好了，里面装着 苹果、面包、苹果、牛奶。\n\n写三行 print，依次输出：\n\n1. 苹果有几个\n2. 面包在第几格\n3. 有没有西瓜\n\n（预期输出三行：2 / 1 / False）',
     starterCode: 'bag = ["苹果", "面包", "苹果", "牛奶"]\n\n# 1. 苹果有几个\n\n# 2. 面包在第几格\n\n# 3. 有没有西瓜\n',
+    requires: ['list'],
     tests: [
       {
         name: '一共三行',

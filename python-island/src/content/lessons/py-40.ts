@@ -21,6 +21,7 @@ export const py40: Lesson = {
     starterCode: '# 猜数字游戏\n# 1. 秘密数字先写死：secret = 3\n\n# 2. while 的条件怎么写？先给一个初值接住猜测，比如 guess = 0\n\n# 3. 循环里：用 input + int() 拿到猜测，再用 if / elif 给提示\n\n',
     // 运行和判分时连续喂给 input() 的三次猜测
     stdin: '1\n5\n3',
+    requires: ['if', 'while', 'input'],
     tests: [
       {
         name: '两次提示都对',

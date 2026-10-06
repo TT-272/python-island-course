@@ -19,6 +19,7 @@ export const py28: Lesson = {
   exercise: {
     prompt: 'songs 里装着三首歌。\n\n把下面那行的 "???" 换成正确的东西，让程序挨个把三首歌打印出来。\n\n（预期输出三行：稻香 / 晴天 / 七里香）',
     starterCode: 'songs = ["稻香", "晴天", "七里香"]\n\n# 把 "???" 换成正确的东西\nfor s in "???":\n    print(s)\n',
+    requires: ['for', 'list'],
     tests: [
       {
         name: '三行都对',

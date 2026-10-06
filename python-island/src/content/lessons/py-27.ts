@@ -20,6 +20,7 @@ export const py27: Lesson = {
   exercise: {
     prompt: '分两段打印，一共十行：\n\n第一段：用 range(5) 打印 0、1、2、3、4\n第二段：用 range 的步长倒着打印 5、4、3、2、1\n\n（预期输出：0 1 2 3 4 5 4 3 2 1，一行一个）',
     starterCode: '# 第一段：用 range(5) 打印 0 到 4\n\n# 第二段：用 range 的第三个参数倒着打印 5 到 1\n\n',
+    requires: ['for'],
     tests: [
       {
         name: '一共十行',

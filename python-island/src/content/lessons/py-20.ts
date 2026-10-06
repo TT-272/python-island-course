@@ -19,6 +19,7 @@ export const py20: Lesson = {
   exercise: {
     prompt: 'age 现在是 20。\n\n写一个 if：如果 age 大于等于 18，就打印 可以进场。\n\n（预期输出：可以进场）',
     starterCode: 'age = 20\n\n# 如果 age >= 18，就打印 "可以进场"\n# 两样东西别忘：行尾的冒号，下一行开头的 4 个空格\n\n',
+    requires: ['if'],
     tests: [
       {
         name: '输出对了',

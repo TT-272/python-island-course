@@ -19,6 +19,7 @@ export const py33: Lesson = {
   exercise: {
     prompt: '掷 5 次骰子，把每次的结果打印出来（一行一个）。\n\n用 for 循环，每次打印 random.randint(1, 6)。\n\n（每次运行结果都不一样，这是正常的）',
     starterCode: 'import random\n\n# 用 for 循环掷 5 次，每次打印 random.randint(1, 6)\n\n',
+    requires: ['for', 'random'],
     tests: [
       {
         name: '掷了 5 次',

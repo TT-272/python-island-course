@@ -18,6 +18,7 @@ export const py17: Lesson = {
   exercise: {
     prompt: '建一个字典 stock，装两样货：苹果 3 个、面包 5 个。\n\n然后打印出面包的数量。\n\n（预期输出：5）',
     starterCode: '# 建一个字典 stock：苹果 3 个，面包 5 个\n\n# 打印面包的数量\n',
+    requires: ['dict'],
     tests: [
       {
         name: '字典建对了',

@@ -21,6 +21,7 @@ export const py34: Lesson = {
     starterCode: '# 猜数字前传\n# 1. 秘密数字先写死：secret = 4\n\n# 2. for 循环猜 3 次\n\n# 3. 循环里：用 input 问一句，再用 int() 变成整数\n\n# 4. 用 if / elif / else 给提示\n',
     // 运行和判分时连续喂给 input() 的三次猜测
     stdin: '2\n6\n4',
+    requires: ['if', 'for', 'input'],
     tests: [
       {
         name: '两次提示都对',

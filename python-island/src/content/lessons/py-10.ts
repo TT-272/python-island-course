@@ -21,6 +21,7 @@ export const py10: Lesson = {
     starterCode: '# 用 input() 问一句，把回答装进 name\n\n# 然后打印 name\n',
     // 运行和判分时自动喂给 input() 的答案
     stdin: '小船长',
+    requires: ['input'],
     tests: [
       {
         name: '把回答接住了',

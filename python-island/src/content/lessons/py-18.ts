@@ -19,6 +19,7 @@ export const py18: Lesson = {
   exercise: {
     prompt: 'nums 里记着 [3, 1, 3, 2, 1, 2, 3]。\n\n先自己算一遍，再写三行 print，依次输出：\n\n1. 一共记了几次\n2. 去重之后剩几种\n3. 去重之后，从小到大排好\n\n（预期输出三行：7 / 3 / [1, 2, 3]）',
     starterCode: 'nums = [3, 1, 3, 2, 1, 2, 3]\n\n# 三行 print：一共几个、去重后几个、去重后排序\n\n',
+    requires: ['list'],
     tests: [
       {
         name: '一共三行',

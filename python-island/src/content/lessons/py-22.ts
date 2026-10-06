@@ -18,6 +18,7 @@ export const py22: Lesson = {
   exercise: {
     prompt: 'score 现在是 72。\n\n写一个三岔判断，打印分数对应的等级：\n\n90 分及以上 → 优秀\n60 分及以上 → 及格\n其他 → 不及格\n\n（预期输出：及格）\n\n写完之后，把 score 改成 95 和 40 各跑一遍，看看三条路是不是都走得到。',
     starterCode: 'score = 72\n\n# 三岔判断：优秀 / 及格 / 不及格\n# 提示：if、elif、else，每一块都要缩进 4 个空格\n\n',
+    requires: ['if'],
     tests: [
       {
         name: '走到正确的分支',

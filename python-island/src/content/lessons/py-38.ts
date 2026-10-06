@@ -20,6 +20,7 @@ export const py38: Lesson = {
   exercise: {
     prompt: '下面两个函数已经写好了：add_one 把数字加 1，add_item 往列表末尾加一个苹果。\n\n先自己猜：\n\nscore 是 10，调用 add_one(score) 之后打印 score，会输出什么？\nbag 是 ["面包"]，调用 add_item(bag) 之后打印 bag，会输出什么？\n\n猜完把这两段补进编辑器，运行对答案。\n\n（预期输出两行）',
     starterCode: 'def add_one(n):\n    n = n + 1\n\ndef add_item(lst):\n    lst.append("苹果")\n\n# 1. score = 10，调用 add_one(score)，然后打印 score\n\n# 2. bag = ["面包"]，调用 add_item(bag)，然后打印 bag\n',
+    requires: ['def', 'list'],
     tests: [
       {
         name: '两行都对',

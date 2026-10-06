@@ -20,6 +20,7 @@ export const py13: Lesson = {
   exercise: {
     prompt: 'shelf 这个货架现在装着 ["苹果", "牛奶"]。\n\n把下面三个 "???" 换成正确的东西，再加一行用 pop() 把最后一个拿掉。\n\n货架最后应该变成：\n\n[\'鸡蛋\', \'苹果\']\n\n也就是：末尾加上面包、最前面插入鸡蛋、把牛奶拿掉、最后 pop 掉一个。',
     starterCode: 'shelf = ["苹果", "牛奶"]\n\n# 把下面三个 "???" 换成题目要求的东西\nshelf.append("???")\nshelf.insert(0, "???")\nshelf.remove("???")\n\n# 再加一行：用 pop() 把最后一个拿掉\n\nprint(shelf)\n',
+    requires: ['list'],
     tests: [
       {
         name: '货架摆对了',

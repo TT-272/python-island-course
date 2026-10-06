@@ -20,6 +20,7 @@ export const py37: Lesson = {
   exercise: {
     prompt: '写一个函数 double：接收一个数字，返回它的两倍。\n\n然后打印 double(5) 和 double(12) 的结果。\n\n（预期输出两行：10 / 24）',
     starterCode: '# 写一个函数 double：接收一个数字，返回它的两倍\n# 用 return 把结果送出来（不是 print）\n\n# 然后打印 double(5) 和 double(12)\n\n',
+    requires: ['def'],
     tests: [
       {
         name: '两行都对',

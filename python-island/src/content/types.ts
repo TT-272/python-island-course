@@ -25,6 +25,8 @@ export type Exercise = {
   prompt: string;
   starterCode: string;
   stdin?: string;
+  /** AST 结构要求：学员代码必须真的用到这些构造才判过（见 runner.py 的白名单） */
+  requires?: string[];
   tests: TestSpec[];
   hints: string[];
   solution: string;

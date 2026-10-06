@@ -16,6 +16,8 @@ export type JudgeResult = {
 export type RunOptions = {
   stdin?: string;
   tests?: TestSpec[];
+  /** AST 结构要求：学员代码必须真的用到这些构造（if/for/while/def/input/dict/list/random） */
+  requires?: string[];
   timeoutMs?: number;          // 单次运行上限，默认 6000ms
 };
 
@@ -180,7 +182,7 @@ export class Judge {
       }, timeoutMs);
 
       this.pending.set(id, { resolve, timer });
-      this.worker!.postMessage({ id, code, stdin: opts.stdin ?? '', tests: opts.tests ?? [] });
+      this.worker!.postMessage({ id, code, stdin: opts.stdin ?? '', tests: opts.tests ?? [], requires: opts.requires ?? [] });
     }).then((raw: any) => {
       if (!raw || raw.fatal) {
         return { ok: false, stdout: '', ms: 0, tests: [], fatal: raw?.fatal ?? '引擎异常' } as JudgeResult;

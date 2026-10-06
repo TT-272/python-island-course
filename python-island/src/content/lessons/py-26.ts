@@ -23,6 +23,7 @@ export const py26: Lesson = {
     starterCode: '# 垃圾分类员：连续处理三样垃圾\n# 提示：现在还没有循环，只能手写三段一样的判断\n\nbad = 0\n\n# 第 1 样\n\n# 第 2 样\n\n# 第 3 样\n\n# 最后打印有害垃圾的数量\n',
     // 运行和判分时连续喂给 input() 的三样垃圾
     stdin: '塑料瓶\n香蕉皮\n电池',
+    requires: ['if', 'input', 'list'],
     tests: [
       {
         name: '三样都判对了',

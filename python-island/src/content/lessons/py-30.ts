@@ -18,6 +18,7 @@ export const py30: Lesson = {
   exercise: {
     prompt: '下面这段想"碰到 3 就整个停下来"，只打印 1 和 2。\n\n但现在打印出来是 1 2 4 5 —— 循环没停住。修好它。\n\n（预期输出：1 / 2）',
     starterCode: '# 想在 i 等于 3 的时候整个停下来，只打印 1 和 2\nfor i in range(1, 6):\n    if i == 3:\n        continue\n    print(i)\n',
+    requires: ['if', 'for'],
     tests: [
       {
         name: '只输出了 1 和 2',

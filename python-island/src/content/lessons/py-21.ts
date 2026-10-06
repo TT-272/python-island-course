@@ -18,6 +18,7 @@ export const py21: Lesson = {
   exercise: {
     prompt: '下面这段代码只写了一半：条件成立时打印 可以进网吧，但条件不成立时什么都不做。\n\n把"否则"的那一半补上，让它不成立时打印 回家写作业。\n\n（age 是 15，所以预期输出：回家写作业）',
     starterCode: 'age = 15\n\nif age >= 18:\n    print("可以进网吧")\n\n# 还差一半：否则就打印 "回家写作业"\n\n',
+    requires: ['if'],
     tests: [
       {
         name: '走到正确的分支',

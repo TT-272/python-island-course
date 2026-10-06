@@ -85,7 +85,12 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
     setResult(null);
     const ex = bonus && lesson!.exercise.bonus ? lesson!.exercise.bonus : lesson!.exercise;
     actions.recordTry(lesson!.id);
-    const r = await judge.run(code, { stdin: lesson!.exercise.stdin, tests: ex.tests });
+    const r = await judge.run(code, {
+      stdin: lesson!.exercise.stdin,
+      tests: ex.tests,
+      // 进阶题暂不设结构要求（BonusExercise 没有 requires 字段）
+      requires: !bonus ? lesson!.exercise.requires : undefined,
+    });
     setResult(r);
     setBusy('');
     const allPass = r.ok && r.tests.length > 0 && r.tests.every((t) => t.passed);

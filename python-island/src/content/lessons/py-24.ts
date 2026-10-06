@@ -18,6 +18,7 @@ export const py24: Lesson = {
   exercise: {
     prompt: '下面这段代码想判断"年龄在 18 到 60 之间"，但条件写错了，15 岁也会被放行。\n\n修好它，让 age 是 15 的时候打印 不符合条件。',
     starterCode: 'age = 15\n\n# 想判断：年龄在 18 到 60 之间\nif age >= 18 or age < 60:\n    print("符合条件")\nelse:\n    print("不符合条件")\n',
+    requires: ['if'],
     tests: [
       {
         name: '15 岁被拦住了',

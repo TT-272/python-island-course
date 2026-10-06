@@ -18,6 +18,7 @@ export const py36: Lesson = {
   exercise: {
     prompt: '这个函数已经会接名字了，但它打印出来的总是问号。\n\n把 "???" 换成正确的东西，让它打印出：\n\n你好，小明\n你好，小红',
     starterCode: 'def say_hi(name):\n    print("你好，" + "???")\n\nsay_hi("小明")\nsay_hi("小红")\n',
+    requires: ['def'],
     tests: [
       {
         name: '两行都对',

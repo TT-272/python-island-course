@@ -18,6 +18,7 @@ export const py31: Lesson = {
   exercise: {
     prompt: '先自己猜：下面这个双重循环会打印几行？第四行是什么？\n\n外层 i 从 1 到 3，内层 j 从 1 到 3，每圈打印 i * j。\n\n猜完把它写进编辑器，运行对答案。\n\n（预期输出九行数字）',
     starterCode: '# 双重循环：i 和 j 都从 1 到 3，打印 i * j\n# 先猜结果，再运行对答案\n\n',
+    requires: ['for'],
     tests: [
       {
         name: '一共九行',

@@ -19,6 +19,7 @@ export const py25: Lesson = {
   exercise: {
     prompt: '先自己猜一遍，再写六行 print 输出下面六个式子的结果（一行一个）：\n\nbool(0)\nbool(1)\nbool("")\nbool(" ")\nbool([])\nbool(None)\n\n（第四个是个小陷阱，看仔细）',
     starterCode: '# 六行 print，一行一个结果\n\n',
+    requires: ['list'],
     tests: [
       {
         name: '一共六行',

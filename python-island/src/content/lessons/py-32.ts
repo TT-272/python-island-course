@@ -20,6 +20,7 @@ export const py32: Lesson = {
   exercise: {
     prompt: '下面这段想打印 1 到 5，但只打印到 4 就停了。\n\n找出问题，修好它。\n\n（预期输出：1 / 2 / 3 / 4 / 5）',
     starterCode: '# 想打印 1 到 5\nfor i in range(1, 5):\n    print(i)\n',
+    requires: ['for'],
     tests: [
       {
         name: '五行的都对',

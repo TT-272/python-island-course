@@ -22,6 +22,7 @@ export const py11: Lesson = {
     starterCode: '# 体温计\n# 提示：input() 拿回来的是文字，得用 float() 变成小数\n\n',
     // 运行和判分时自动喂给 input() 的答案
     stdin: '36.5',
+    requires: ['input'],
     tests: [
       {
         name: '算出来 97.7',
