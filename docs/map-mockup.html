@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><title>Python 岛 · 地图</title>
+<link rel="stylesheet" href="nes.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  @font-face{font-family:"PixelZH";src:url("pixel-zh.woff2") format("woff2")}
+  :root{--bg:#212529;--bg2:#14171a;--panel:#1c2129;--line:#3c4665;
+        --blue:#209cee;--green:#92cc41;--yellow:#f7d51d;--red:#e76e55;
+        --text:#e0e0f1;--dim:#7c8398}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+       font-family:"Microsoft YaHei","PingFang SC",sans-serif}
+  .pz{font-family:"PixelZH",sans-serif}
+  .pl{font-family:"Press Start 2P",monospace}
+  .top{display:flex;align-items:center;gap:24px;padding:13px 26px;background:var(--bg2);
+       border-bottom:5px solid #000}
+  .logo{display:flex;align-items:center;gap:10px;font-family:"PixelZH",sans-serif;font-size:17px;color:#fff}
+  .coin{width:19px;height:19px;background:var(--yellow);flex:none;
+        box-shadow:0 0 0 3px #000,inset 3px 3px 0 #fff27a,inset -3px -3px 0 #b8940c}
+  .nav{display:flex;gap:20px;font-size:13.5px;color:var(--dim)}
+  .nav span.on{color:#fff;border-bottom:3px solid var(--yellow);padding-bottom:3px}
+  .sp{flex:1}
+  .hud{display:flex;align-items:center;gap:14px}
+  .xpbar{width:170px;height:16px;background:#000;border:3px solid var(--line)}
+  .xpbar i{display:block;height:100%;width:24%;background:var(--green)}
+  .xptxt{font-family:"Press Start 2P",monospace;font-size:9px;color:var(--dim);margin-top:6px}
+  .lvl{font-family:"Press Start 2P",monospace;font-size:12px;color:#1a1400;background:var(--yellow);
+       padding:8px 11px;border:4px solid #000;
+       box-shadow:inset 2px 2px 0 #fff27a,inset -2px -2px 0 #b8940c}
+  .wrap{display:flex;gap:20px;padding:22px 26px 40px;max-width:1700px;margin:0 auto}
+  .col{flex:1;min-width:0}
+  .side{width:308px;flex:none}
+  h1.title{font-family:"PixelZH",sans-serif;font-size:26px;color:#fff;margin:0 0 8px}
+  .sub{font-size:13px;color:var(--dim);margin-bottom:16px}
+  .px8{background:#000;padding:4px;
+    clip-path:polygon(8px 0,calc(100% - 8px) 0,calc(100% - 8px) 4px,calc(100% - 4px) 4px,
+      calc(100% - 4px) 8px,100% 8px,100% calc(100% - 8px),
+      calc(100% - 4px) calc(100% - 8px),calc(100% - 4px) calc(100% - 4px),
+      calc(100% - 8px) calc(100% - 4px),calc(100% - 8px) 100%,8px 100%,
+      8px calc(100% - 4px),4px calc(100% - 4px),4px calc(100% - 8px),
+      0 calc(100% - 8px),0 8px,4px 8px,4px 4px,8px 4px)}
+  .px8>.in{background:var(--panel);box-shadow:inset 2px 2px 0 rgba(255,255,255,.10),
+           inset -2px -2px 0 rgba(0,0,0,.45)}
+  .px12{background:var(--ring,#3c4665);padding:5px;
+    clip-path:polygon(12px 0,calc(100% - 12px) 0,calc(100% - 12px) 4px,calc(100% - 4px) 4px,
+      calc(100% - 4px) 12px,100% 12px,100% calc(100% - 12px),
+      calc(100% - 4px) calc(100% - 12px),calc(100% - 4px) calc(100% - 4px),
+      calc(100% - 12px) calc(100% - 4px),calc(100% - 12px) 100%,12px 100%,
+      12px calc(100% - 4px),4px calc(100% - 4px),4px calc(100% - 12px),
+      0 calc(100% - 12px),0 12px,4px 12px,4px 4px,12px 4px)}
+  .px12>.ln{background:#000;padding:1px;
+    clip-path:polygon(8px 0,calc(100% - 8px) 0,calc(100% - 8px) 4px,calc(100% - 4px) 4px,
+      calc(100% - 4px) 8px,100% 8px,100% calc(100% - 8px),
+      calc(100% - 4px) calc(100% - 8px),calc(100% - 4px) calc(100% - 4px),
+      calc(100% - 8px) calc(100% - 4px),calc(100% - 8px) 100%,8px 100%,
+      8px calc(100% - 4px),4px calc(100% - 4px),4px calc(100% - 8px),
+      0 calc(100% - 8px),0 8px,4px 8px,4px 4px,8px 4px)}
+  .px12>.ln>.in{background:var(--panel)}
+  .mapwrap{position:relative;line-height:0}
+  #map{width:100%;height:auto;display:block;image-rendering:pixelated}
+  .marker{position:absolute;transform:translate(-50%,-100%);text-align:center;line-height:1.35}
+  .marker .plate{display:inline-block;background:rgba(10,14,20,.92);border:3px solid #000;
+                 box-shadow:0 0 0 1px rgba(255,255,255,.18);padding:4px 9px}
+  .marker .nm{font-family:"PixelZH",sans-serif;font-size:12.5px;color:#fff;white-space:nowrap}
+  .marker .st{font-family:"PixelZH",sans-serif;font-size:10.5px;white-space:nowrap}
+  .marker.done .st{color:#c8f08e}.marker.now .st{color:#ffe680}
+  .marker.lock .plate{background:rgba(10,14,20,.62);box-shadow:0 0 0 1px rgba(255,255,255,.07)}
+  .marker.lock .nm{color:#98a0b5}.marker.lock .st{color:#69708a}
+  .nowtag{position:absolute;transform:translate(-50%,-100%);
+          font-family:"PixelZH",sans-serif;font-size:11px;color:#1a1400;background:var(--yellow);
+          padding:4px 9px;border:3px solid #000;white-space:nowrap;line-height:1.3;
+          animation:bob 1.1s ease-in-out infinite alternate}
+  @keyframes bob{from{transform:translate(-50%,-100%)}to{transform:translate(-50%,calc(-100% - 5px))}}
+  .card{margin-bottom:16px}
+  .card .hd{font-family:"PixelZH",sans-serif;font-size:14px;color:#fff;padding:11px 14px;
+            background:#252a34;border-bottom:4px solid #000}
+  .card .bd{padding:14px}
+  .row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;
+       border-bottom:2px dashed #2c3140;font-size:13px}
+  .row:last-child{border-bottom:0}
+  .row b{font-family:"Press Start 2P",monospace;font-size:11px;color:var(--yellow)}
+  .row.ok b{color:var(--green)}
+  .badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .bdg{aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+       border:4px solid #000;background:#242833}
+  .bdg.on{background:var(--yellow);box-shadow:inset 3px 3px 0 #fff27a,inset -3px -3px 0 #b8940c}
+  .bdg .n{font-family:"Press Start 2P",monospace;font-size:11px;color:#4c5364}
+  .bdg.on .n{color:#4a3a00}
+  .tip{font-size:12.5px;color:var(--dim);line-height:1.9}
+</style></head><body>
+
+<div class="top">
+  <div class="logo"><div class="coin"></div>Python 岛</div>
+  <div class="nav"><span class="on">地图</span><span>徽章</span><span>成就</span><span>设置</span></div>
+  <div class="sp"></div>
+  <div class="hud">
+    <div><div class="xpbar"><i></i></div><div class="xptxt">120 / 500 XP</div></div>
+    <div class="lvl">LV.3</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="col">
+    <h1 class="title">冒险者，欢迎来到 Python 岛</h1>
+    <div class="sub">已点亮 12 / 38 关 · 进度自动保存</div>
+    <div class="px12" style="--ring:#3c4665"><div class="ln"><div class="in" style="padding:8px">
+      <div class="mapwrap"><div id="mlabels"></div><svg id="map"></svg></div>
+    </div></div></div>
+  </div>
+  <div class="side">
+    <div class="px12 card" style="--ring:#92cc41"><div class="ln"><div class="in" style="padding:0">
+      <div class="hd">进度</div><div class="bd">
+        <div class="row"><span>关卡</span><b>12 / 38</b></div>
+        <div class="row"><span>经验</span><b>120 / 500</b></div>
+        <div class="row"><span>等级</span><b>LV. 3</b></div>
+        <div class="row ok"><span>徽章</span><b>2 / 6</b></div>
+      </div></div></div></div>
+    <div class="px8 card"><div class="in" style="padding:0">
+      <div class="hd">区域徽章</div><div class="bd">
+        <div class="badges">
+          <div class="bdg on"><span class="n">1</span></div><div class="bdg on"><span class="n">2</span></div>
+          <div class="bdg"><span class="n">3</span></div><div class="bdg"><span class="n">4</span></div>
+          <div class="bdg"><span class="n">5</span></div><div class="bdg"><span class="n">6</span></div>
+        </div>
+        <div class="tip" style="margin-top:12px">通关一个区域点亮一枚。</div>
+      </div></div></div>
+    <div class="px8 card"><div class="in" style="padding:0">
+      <div class="hd">下一关</div><div class="bd">
+        <div class="tip"><span class="pz" style="color:#fff;font-size:13px">仓库镇 · 第一个列表</span><br><br>
+          把好几个东西装进一个盒子，然后按顺序拿出来。</div>
+      </div></div></div>
+  </div>
+</div>
+
+<script>
+/* ================= 画布 ================= */
+const W=440, H=250, PIX=[];
+let DIMT = 0;                                   /* 0 = 正常，>0 = 未解锁的压暗程度 */
+function hex2rgb(c){ return [parseInt(c.slice(1,3),16),parseInt(c.slice(3,5),16),parseInt(c.slice(5,7),16)]; }
+function rgb2hex(a){ return '#'+a.map(v=>Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join(''); }
+function lerpC(a,b,t){ const A=hex2rgb(a),B=hex2rgb(b); return rgb2hex([0,1,2].map(i=>A[i]+(B[i]-A[i])*t)); }
+/* 未解锁 = 降饱和 + 压暗 */
+function dim(c,amt){
+  const [r,g,b]=hex2rgb(c), avg=(r+g+b)/3;
+  const k=0.72*amt, d=1-0.34*amt;
+  return rgb2hex([r+(avg-r)*k, g+(avg-g)*k, b+(avg-b)*k].map(v=>v*d));
+}
+function put(x,y,c){
+  x=Math.round(x); y=Math.round(y);
+  if(x<0||x>=W||y<0||y>=H) return;
+  PIX.push([x,y, DIMT>0 ? dim(c,DIMT) : c]);
+}
+function hash(x,y,s){
+  let h=(Math.round(x)*374761393 + Math.round(y)*668265263 + s*1274126177)|0;
+  h=Math.imul(h^(h>>>13),1274126177)|0;
+  return (((h^(h>>>16))>>>0) & 0xffff)/0xffff;
+}
+/* 地表：基本平，只有最右侧为熔炉隆起 */
+function surf(x){ return x>398 ? 168 - Math.round((x-398)*0.75) : 168; }
+
+/* ================= 主角 16×22（泰拉瑞亚风：竖发 + 深色描边） ================= */
+const HP = {
+  K:'#1a1a2a', H:'#7a4423', h:'#9c5a2e', S:'#f5c9a0', s:'#d9a67c', E:'#2a2a3a',
+  G:'#a05a3a', g:'#7d4530', P:'#4a5a80', p:'#37456a', O:'#3a2a1e'
+};
+const HERO = [
+  ".....K....K.....",
+  "....KHK..KHK....",
+  "...KHHHKKHHHK...",
+  "...KHHHHHHHHK...",
+  "..KHHHHHHHHHHK..",
+  "..KHSSSSSSSSHK..",
+  "..KSSSSSSSSSSK..",
+  "..KSESSSSSSESK..",
+  "..KSSSSSSSSSSK..",
+  "..KsSSSSSSSSsK..",
+  "...KSSSSSSSSK...",
+  "...KKGGGGGGKK...",
+  "..KSGGGGGGGGSK..",
+  "..KSGGGGGGGGSK..",
+  "..KsGgGGGGgGsK..",
+  "..KKKKKKKKKKKK..",
+  "...KPPPPPPPPK...",
+  "...KPPPPPPPPK...",
+  "...KPPKKKKPPK...",
+  "...KPPK..KPPK...",
+  "...KOOK..KOOK...",
+  "...KKKK..KKKK..."
+];
+function drawHero(ox,oy){
+  HERO.forEach((row,ry)=>[...row].forEach((ch,rx)=>{ if(HP[ch]) put(ox+rx, oy+ry, HP[ch]); }));
+}
+
+/* ================= 程序化景物的绘图工具 ================= */
+function tree(cx, baseY, r, trunkH, tone){
+  const c = tone || {l:'#8ad869', m:'#6db84e', d:'#4e8a3a', tl:'#7a4f2c', td:'#5c3a1e'};
+  const topY=baseY-trunkH, tw=Math.max(3, Math.round(r*0.2));
+  for(let y=topY;y<baseY;y++) for(let x=cx-Math.floor(tw/2);x<cx-Math.floor(tw/2)+tw;x++){
+    const edge=(x===cx-Math.floor(tw/2));
+    put(x,y, edge?c.tl:(hash(x,y,71)>0.8?c.td:c.tl));
+  }
+  const cy=topY-Math.round(r*0.55);
+  const blobs=[[cx,cy,r],[cx-r*0.68,cy+r*0.34,r*0.74],[cx+r*0.68,cy+r*0.34,r*0.74],
+               [cx-r*0.46,cy-r*0.5,r*0.72],[cx+r*0.46,cy-r*0.5,r*0.72]];
+  for(let y=Math.floor(cy-r*1.4);y<=Math.ceil(cy+r*1.25);y++)
+    for(let x=cx-Math.ceil(r*1.6);x<=cx+Math.ceil(r*1.6);x++){
+      let inside=false;
+      for(const b of blobs) if(Math.hypot(x-b[0],y-b[1])<=b[2]){inside=true;break;}
+      if(!inside) continue;
+      const t=((x-cx)/r)*0.7+((y-cy)/r)*0.7;
+      put(x,y, t<-0.55?c.l:(t<0.3?c.m:c.d));
+    }
+}
+let TGT=null;
+function p(x,y,c){
+  x=Math.round(x); y=Math.round(y);
+  if(x<0||x>=W||y<0||y>=H) return;
+  if(TGT) TGT.set(x+','+y,c); else put(x,y,c);
+}
+/* ===== 离散调色板：每个材质 4-5 个固定色阶，绝不插值 ===== */
+const PAL={
+  wood   :['#d9a061','#c1854a','#a26735','#7d4a20','#5a3315'],
+  woodV  :['#c98a52','#ad7038','#8d5729','#68401c','#452711'],
+  plaster:['#f5e3b8','#e6d0a2','#cdb587','#a89268','#7d6a48'],
+  stone  :['#b0b0b0','#959595','#787878','#5b5b5b','#3d3d3d'],
+  roofR  :['#e0664a','#c14a32','#9c3823','#782a18','#521b0e'],
+  roofB  :['#5f95cf','#4477b3','#315d92','#22456f','#152e4d'],
+  roofO  :['#d99a52','#bd7f3a','#9c6529','#78491b','#52300f'],
+  lit    :['#fff6bf','#ffe083','#e0b943'],
+  cold   :['#a8d8ff','#6fa3cc','#486f99']
+};
+const OUTLINE='#1c1409';
+
+/* ===== 轮廓描边 + 合成 ===== */
+function flush(buf){
+  const out=new Map();
+  for(const k of buf.keys()){
+    const q=k.split(','), x=+q[0], y=+q[1];
+    for(const d of [[-1,0],[1,0],[0,-1],[0,1]]){
+      const nk=(x+d[0])+','+(y+d[1]);
+      if(!buf.has(nk) && !out.has(nk)) out.set(nk,OUTLINE);
+    }
+  }
+  for(const [k,c] of out){ const q=k.split(','); p(+q[0],+q[1],c); }
+  for(const [k,c] of buf){ const q=k.split(','); p(+q[0],+q[1],c); }
+}
+/* ===== 木墙：横向拼板 + 2×2 抖动过渡 ===== */
+function plankWall(x0,y0,w,h,pal){
+  for(let y=y0;y<y0+h;y++){
+    const rowI=Math.floor((y-y0)/6), v=hash(rowI,3,211);
+    const tone = v>0.68?0 : (v>0.4?1 : (v>0.16?2:3));
+    for(let x=x0;x<x0+w;x++){
+      let c=pal[tone];
+      if((y-y0)%6===5) c=pal[4];                        /* 板缝 */
+      else if(((x>>1)+(y>>1))%2===0 && tone<3 && hash(x,y,315)<0.55) c=pal[tone+1];
+      p(x,y,c);
+    }
+  }
+}
+/* ===== 石砌 ===== */
+function stoneBase(x0,y0,w,h,pal){
+  for(let y=y0;y<y0+h;y++) for(let x=x0;x<x0+w;x++){
+    const bi=Math.floor((x-x0)/8), bj=Math.floor((y-y0)/5), off=(bj%2)*4;
+    const seam=(((x-x0)+off)%8===0)||((y-y0)%5===4);
+    const v=hash(bi,bj,213);
+    p(x,y, seam?pal[3]:(v>0.6?pal[0]:(v>0.3?pal[1]:pal[2])));
+  }
+}
+/* ===== 屋顶：8px 错行屋瓦 + 挑檐 ===== */
+function roofSlab(cx,topY,halfW,rh,pal){
+  const ridgeHalf=Math.max(4, Math.round(halfW*0.30));
+  for(let i=0;i<rh;i++){
+    const t=i/(rh-1||1);
+    const half=Math.round(ridgeHalf+(halfW-ridgeHalf)*t);
+    const y=topY-rh+i, off=(i%2)*4;
+    for(let x=cx-half;x<=cx+half;x++){
+      const cell=Math.floor((x-cx+200+off)/8);
+      const v=hash(cell,i,321);
+      let c = v>0.70?pal[0] : (v>0.44?pal[1] : (v>0.17?pal[2]:pal[3]));
+      if(i===0) c=pal[0];
+      if(x===cx-half||x===cx+half) c=pal[4];
+      p(x,y,c);
+    }
+  }
+  const eaveHalf=halfW+4;
+  for(let x=cx-eaveHalf;x<=cx+eaveHalf;x++) p(x,topY-1,pal[3]);
+  for(let x=cx-eaveHalf;x<=cx+eaveHalf;x++) p(x,topY,pal[4]);
+}
+/* ===== 门 / 窗 ===== */
+function doorBox(x0,y0,w,h){
+  for(let j=0;j<h;j++) for(let i=0;i<w;i++){
+    const edge=(i===0||i===w-1||j===0);
+    let c = edge?PAL.wood[4] : (((i+Math.floor(j/4))%3===0)?PAL.wood[3]:PAL.wood[2]);
+    p(x0+i,y0+j,c);
+  }
+  p(x0+w-2,y0+Math.floor(h*0.55),'#f7d51d');
+}
+function windowBox(x0,y0,w,h,lit){
+  const g = lit?PAL.lit:PAL.cold;
+  for(let j=0;j<h;j++) for(let i=0;i<w;i++){
+    const edge=(i===0||i===w-1||j===0||j===h-1);
+    const mull=(i===Math.floor(w/2)||j===Math.floor(h/2));
+    p(x0+i,y0+j, edge?PAL.wood[4]:(mull?PAL.wood[3]:g[j===1?0:1]));
+  }
+  if(lit) p(x0+1,y0+1,PAL.lit[0]);
+}
+/* ===== 烟囱 ===== */
+function chimney(x0,topY,h){
+  stoneBase(x0,topY,8,h,PAL.stone);
+  for(let x=x0;x<x0+8;x++) p(x,topY-1,PAL.stone[4]);
+  /* 烟直接画，不进缓冲 —— 避免被轮廓描边包成黑十字 */
+  for(let i=0;i<10;i++){
+    const sx=Math.round(x0+1+hash(i,1,231)*6), sy=Math.round(topY-3-hash(i,2,232)*18);
+    put(sx,sy, hash(i,3,233)>0.5?'#eaeaea':'#c9c9c9');
+    if(i%3===0){ put(sx+1,sy,'#f4f4f4'); put(sx,sy-1,'#f4f4f4'); }
+  }
+}
+/* ===== 地面投影：固定 3 档绿，靠宽度递减 ===== */
+function shadowCast(cx,baseY,halfW){
+  const g=['#315c26','#3c6c2c','#487d34'];
+  for(let x=cx-halfW-5;x<=cx+halfW+7;x++){
+    const d=Math.abs(x-(cx+3))/(halfW+8);
+    if(d>1) continue;
+    const hgt=Math.round(3.5*(1-d*d));
+    for(let k=0;k<=hgt;k++) p(x,baseY+1+k, g[Math.min(2,k)]);
+  }
+}
+/* ===== 房子 ===== */
+function house(cx,baseY,wallW,wallH,opt){
+  opt=opt||{};
+  const wallPal = opt.plaster?PAL.plaster:PAL.wood;
+  const roofPal = opt.roof||PAL.roofR;
+  const halfW=Math.round(wallW/2), topY=baseY-wallH;
+  const buf=new Map(); TGT=buf;
+  shadowCast(cx,baseY,halfW);
+  stoneBase(cx-halfW, baseY-6, wallW, 6, PAL.stone);
+  plankWall(cx-halfW, topY, wallW, wallH-6, wallPal);
+  const rh=Math.round(wallH*0.62);
+  const ridgeHalf=Math.max(4, Math.round((halfW+4)*0.30));
+  roofSlab(cx, topY, halfW+4, rh, roofPal);
+  const dW=Math.max(8,Math.round(wallW*0.22)), dH=Math.round(wallH*0.5);
+  doorBox(cx-Math.floor(dW/2), baseY-dH, dW, dH);
+  const ww=Math.max(9,Math.round(wallW*0.24)), wh=Math.max(9,Math.round(wallH*0.3));
+  windowBox(cx-halfW+4, topY+Math.round(wallH*0.18), ww, wh, !!opt.lit);
+  windowBox(cx+halfW-4-ww, topY+Math.round(wallH*0.18), ww, wh, !!opt.lit);
+  if(opt.chimney){
+    const chX=cx+Math.round(halfW*0.42);
+    const tCh=Math.min(1,Math.max(0,(Math.abs(chX-cx)-ridgeHalf)/((halfW+4-ridgeHalf)||1)));
+    const roofY=topY-rh+Math.round(tCh*rh), rise=Math.round(rh*0.5);
+    chimney(chX-4, roofY-rise, rise+6);
+  }
+  TGT=null; flush(buf);
+}
+/* ===== 谷仓 ===== */
+function barn(cx,baseY,wallW,wallH,lit){
+  const halfW=Math.round(wallW/2), topY=baseY-wallH;
+  const buf=new Map(); TGT=buf;
+  shadowCast(cx,baseY,halfW);
+  stoneBase(cx-halfW, baseY-6, wallW, 6, PAL.stone);
+  for(let y=topY;y<baseY-6;y++) for(let x=cx-halfW;x<=cx+halfW;x++){
+    const pi=Math.floor((x-(cx-halfW))/7), v=hash(pi,0,251);
+    let c = v>0.6?PAL.woodV[0]:(v>0.3?PAL.woodV[1]:PAL.woodV[2]);
+    if((x-(cx-halfW))%7===6) c=PAL.woodV[4];
+    p(x,y,c);
+  }
+  const rh=Math.round(wallH*0.52);
+  roofSlab(cx, topY, halfW+4, rh, PAL.roofR);
+  const dW=Math.round(wallW*0.42), dH=Math.round(wallH*0.6);
+  const dx=cx-Math.floor(dW/2), dy=baseY-dH;
+  for(let j=0;j<dH;j++) for(let i=0;i<dW;i++){
+    const edge=(i===0||i===dW-1||j===0);
+    p(dx+i, dy+j, edge?PAL.woodV[4]:(((i+j)%5<2)?PAL.woodV[2]:PAL.woodV[1]));
+  }
+  for(let i=0;i<dW;i++){ p(dx+i,dy+Math.round(i*dH/dW),PAL.woodV[4]); p(dx+dW-1-i,dy+Math.round(i*dH/dW),PAL.woodV[4]); }
+  windowBox(cx-halfW+6, topY+7, 10, 10, lit);
+  windowBox(cx+halfW-16, topY+7, 10, 10, lit);
+  TGT=null; flush(buf);
+}
+/* ===== 熔炉 ===== */
+function furnace(cx,baseY){
+  const w=38,h=29, halfW=w/2, topY=baseY-h;
+  const buf=new Map(); TGT=buf;
+  shadowCast(cx,baseY,halfW);
+  for(let y=topY;y<baseY;y++) for(let x=cx-halfW;x<=cx+halfW;x++){
+    const bi=Math.floor((x-(cx-halfW))/9), bj=Math.floor((y-topY)/6), off=(bj%2)*4;
+    const seam=(((x-(cx-halfW)+off)%9===0)||((y-topY)%6===5));
+    const v=hash(bi,bj,213);
+    p(x,y, seam?PAL.stone[3]:(v>0.6?PAL.stone[0]:(v>0.3?PAL.stone[1]:PAL.stone[2])));
+  }
+  chimney(cx-3, topY-16, 18);
+  for(let y=baseY-17;y<baseY;y++) for(let x=cx-10;x<=cx+10;x++)
+    if((x-cx)*(x-cx)/100 + (y-(baseY-1))*(y-(baseY-1))/289 < 1) p(x,y,'#241105');
+  for(let y=baseY-3;y>baseY-17;y--){
+    const t=(baseY-3-y)/14, half=Math.max(1,Math.round(8*(1-t*t)));
+    for(let x=cx-half;x<=cx+half;x++)
+      p(x,y, t>0.72?'#e0553a':(t>0.44?'#ff8c2e':'#ffcf4a'));
+  }
+  TGT=null; flush(buf);
+}
+
+function palm(cx, baseY, h){
+  for(let i=0;i<h;i++){
+    const x=cx+Math.round(Math.sin(i/h*2.4)*5), y=baseY-i;
+    put(x,y,'#7a4f2c'); put(x+1,y,'#5c3a1e'); put(x-1,y,'#8d5c34');
+  }
+  const tx=cx+Math.round(Math.sin(2.4)*5), ty=baseY-h;
+  for(let a=0;a<11;a++){
+    const ang=a*Math.PI*2/11, len=15+Math.round(hash(a,1,9)*6);
+    for(let d=1;d<len;d++){
+      const x=tx+Math.round(Math.cos(ang)*d), y=ty+Math.round(Math.sin(ang)*d*0.42);
+      put(x,y, d<len-5?'#4e8a3a':'#6db84e'); put(x,y+1,'#3b6630');
+      if(d<len-6) put(x,y-1,'#8ad869');
+    }
+  }
+  for(let i=-2;i<=3;i++) put(tx+i, ty, '#6db84e');
+  put(tx-1,ty+3,'#7a4f2c'); put(tx+2,ty+3,'#7a4f2c');
+}
+function gear(cx, cy, r){
+  for(let y=-r-4;y<=r+4;y++) for(let x=-r-4;x<=r+4;x++){
+    const d=Math.hypot(x,y);
+    const tooth=(Math.abs(Math.sin(Math.atan2(y,x)*3))>0.6) && d<=r+4 && d>r-2;
+    if(d<=r-2 || tooth) put(cx+x,cy+y, d<r*0.4?'#5f6779':(d<r*0.75?'#8b96ad':'#767f95'));
+  }
+  for(let y=-Math.round(r*0.38);y<=Math.round(r*0.38);y++)
+    for(let x=-Math.round(r*0.38);x<=Math.round(r*0.38);x++) put(cx+x,cy+y,'#3a4053');
+}
+function sign(cx, baseY){
+  for(let y=baseY-20;y<baseY;y++) put(cx,y,'#5c3a1e');
+  for(let y=baseY-34;y<baseY-20;y++) for(let x=cx-13;x<=cx+13;x++) put(x,y, hash(x,y,61)>0.85?'#b08050':'#c98a4b');
+  for(let i=0;i<3;i++) for(let x=cx-8;x<=cx+8;x++) put(x, baseY-31+i*4, '#6b4423');
+}
+function tuft(x, baseY){
+  for(let i=0;i<3;i++){ put(x-2+i*2, baseY-3, '#7cc45a'); put(x-2+i*2, baseY-2, '#5aa03f'); }
+  put(x, baseY-1, '#5aa03f');
+}
+function flower(x, baseY){
+  put(x,baseY-1,'#5c3a1e'); put(x,baseY-2,'#5c3a1e');
+  put(x,baseY-3,'#e76e55'); put(x-1,baseY-4,'#f7d51d'); put(x,baseY-4,'#f7d51d'); put(x+1,baseY-4,'#f7d51d'); put(x,baseY-5,'#f7d51d');
+}
+
+/* ================= 1. 天空：色阶 + 抖动过渡 ================= */
+const SKY=['#1a4a7e','#20538b','#275c97','#2f66a3','#3871af','#427dbc',
+           '#4e89c7','#5c96d2','#6da4dc','#80b2e5','#95c1ed','#abd0f3'];
+const BAND=21;
+for(let y=0;y<H;y++){
+  const f=y/BAND, i=Math.min(SKY.length-2, Math.floor(f)), frac=f-i;
+  const dith = frac>0.6;                                 /* 每段后 40% 做抖动过渡 */
+  for(let x=0;x<W;x++){
+    if(y>=surf(x)) continue;
+    put(x,y, (dith && (((x>>1)+(y>>1))%2===0)) ? SKY[i+1] : SKY[i]);
+  }
+}
+/* ================= 2. 太阳 + 云 ================= */
+const SX=78, SY=42;
+for(let dy=-34;dy<=34;dy++) for(let dx=-34;dx<=34;dx++){
+  const d=Math.hypot(dx,dy);
+  if(d<=16||d>33) continue;
+  const t=(d-16)/17;                       /* 0 贴着太阳，1 最外圈 */
+  const v=hash(SX+dx,SY+dy,501);
+  if(t<0.34){ if(v<0.88) put(SX+dx,SY+dy,'#a6cde9'); }
+  else if(t<0.68){ if(v<0.52) put(SX+dx,SY+dy,'#94c2e3'); }
+  else { if(v<0.26) put(SX+dx,SY+dy,'#86b5da'); }
+}
+for(let dy=-18;dy<=18;dy++) for(let dx=-18;dx<=18;dx++){
+  const d=Math.hypot(dx,dy);
+  if(d<=17) put(SX+dx,SY+dy, d<=8?'#fffdf0':(d<=13?'#ffeeb0':'#ffe082'));
+}
+/* 云：亮顶 / 暗底 / 抖动过渡 / 远近两档 */
+function cloud(cx,cy,s,far){
+  const top=far?'#f4faff':'#ffffff', mid=far?'#e6f1fb':'#f2f8ff';
+  const bot=far?'#cfe0ee':'#dbeaf7', rim=far?'#b9cee0':'#c2d8ea';
+  const blobs=[[0,0,s],[-s*0.95,s*0.22,s*0.72],[s*0.98,s*0.26,s*0.68],
+               [-s*0.34,-s*0.52,s*0.62],[s*0.42,-s*0.46,s*0.58],[0,s*0.36,s*0.86]];
+  for(let y=Math.round(-s*1.7);y<=Math.round(s*1.4);y++)
+    for(let x=Math.round(-s*2.2);x<=Math.round(s*2.2);x++){
+      let inside=false;
+      for(const b of blobs) if(Math.hypot(x-b[0],y-b[1])<=b[2]){inside=true;break;}
+      if(!inside) continue;
+      const rel=y/(s*1.5);
+      let c = rel<-0.3 ? top : (rel<0.35 ? mid : bot);
+      if(rel>0.8) c=rim;
+      else if(rel>0.3 && ((x+y)&1)) c=bot;
+      put(cx+x, cy+y, c);
+    }
+}
+cloud(180,44,9,0); cloud(300,26,7,1); cloud(392,58,8,0);
+cloud(112,72,6,1); cloud(258,84,7,0); cloud(34,96,6,1); cloud(428,34,5,1);
+
+/* ================= 3. 远景山脊（低饱和 · 空气透视） ================= */
+for(let x=0;x<W;x++){
+  const s=surf(x);
+  const h1=104+Math.round(16*Math.sin(x/58)+9*Math.sin(x/19));
+  for(let y=Math.max(0,h1);y<s;y++) put(x,y,'#8aa5bd');
+  const h2=122+Math.round(12*Math.sin(x/34+2)+7*Math.sin(x/13));
+  for(let y=Math.max(0,h2);y<s;y++) put(x,y,'#70869e');
+}
+/* ================= 4. 中景树冠墙（一整片暗绿，制造体量） ================= */
+for(let i=0;i<150;i++){
+  const cx=Math.round(hash(i,1,101)*W), cy=126+Math.round(hash(i,2,102)*30);
+  const r=14+Math.round(hash(i,3,103)*22);
+  for(let dy=-r;dy<=r;dy++) for(let dx=-r;dx<=r;dx++){
+    const d=Math.hypot(dx,dy); if(d>r) continue;
+    const x=cx+dx, y=cy+dy;
+    if(y>=surf(x)) continue;
+    const t=(y-(cy-r))/(2*r);
+    put(x,y, t<0.35?'#4a7a4c':(t<0.7?'#3d6740':'#325536'));
+  }
+}
+/* ================= 4b. 中景地面带（树冠墙之后、近景地面之前） ================= */
+for(let x=0;x<W;x++){
+  const s=surf(x);
+  for(let y=s-20;y<s;y++){
+    const t=(y-(s-20))/20;
+    const v=hash(x,y,401)+t*0.5;
+    put(x,y, v<0.42?'#5d8a50':(v<0.78?'#4d7543':'#3f6437'));
+  }
+  put(x,s-20,'#6f9f60');
+  put(x,s-19,'#659153');
+}
+
+/* ================= 5. 地面（草 / 土渐变 / 岩渐变） ================= */
+for(let x=0;x<W;x++){
+  const s=surf(x);
+  put(x,s-1,'#8ad869'); put(x,s,'#6db84e'); put(x,s+1,'#5aa03f'); put(x,s+2,'#4c8c34');
+  const DIRT_TOP='#a3744a', DIRT_BOT='#402a19';
+  for(let y=s+3;y<s+62;y++){
+    const t=Math.pow((y-s-3)/58, 0.85);
+    let c=lerpC(DIRT_TOP,DIRT_BOT,t);
+    const r=hash(x,y,7);
+    if(r<0.10) c=lerpC(c,'#000000',0.16);
+    else if(r>0.93) c=lerpC(c,'#ffffff',0.10);
+    put(x,y,c);
+  }
+  for(let y=s+62;y<H;y++){
+    const t=(y-s-62)/Math.max(1,(H-s-62));
+    let c=lerpC('#5c5c5c','#332f2b',t);
+    const r=hash(x,y,13);
+    if(r<0.10) c=lerpC(c,'#000000',0.18);
+    else if(r>0.94) c=lerpC(c,'#ffffff',0.08);
+    put(x,y,c);
+  }
+}
+for(let i=0;i<80;i++){
+  const x=Math.round(hash(i,1,21)*W), y=Math.round(215+hash(i,2,31)*32);
+  if(y<H-1){ put(x,y,'#d9b34a'); put(x+1,y,'#bb9736'); put(x,y+1,'#a8872c'); }
+}
+
+/* ================= 6. 区域（进度编码进场景） ================= */
+const NODES=[
+  {x:40, name:'登陆点',   sub:'4 / 4',  state:'done'},
+  {x:118,name:'数据村庄', sub:'6 / 6',  state:'done'},
+  {x:196,name:'仓库镇',   sub:'2 / 8',  state:'now'},
+  {x:274,name:'岔路森林', sub:'未解锁', state:'lock'},
+  {x:352,name:'工坊',     sub:'未解锁', state:'lock'},
+  {x:410,name:'熔炉',     sub:'未解锁', state:'lock'}
+];
+/* 路面：已走亮，未解锁暗 */
+for(let x=30;x<=426;x++){
+  const s=surf(x), done = x <= NODES[2].x;
+  put(x,s,   done?'#e0ca92':'#5f5540');
+  put(x,s+1, done?'#cbb076':'#514836');
+}
+/* 大树：先画（在建筑后面），制造纵深 */
+[[74,19,72],[164,21,80],[242,20,76],[322,19,70],[388,17,64],[20,15,56]].forEach(([x,r,th])=>{
+  tree(x, surf(x), r, th);
+});
+/* 中景小树 */
+[[100,13,30],[170,14,34],[214,13,30],[298,14,34],[336,13,28],[428,14,32]].forEach(([x,r,th])=>{
+  tree(x, surf(x), r, th, {l:'#5f9c55',m:'#4d8449',d:'#3a6a3a',tl:'#6b4426',td:'#4e3018'});
+});
+/* 区域地标 */
+function landmark(node){
+  const i = NODES.indexOf(node);
+  DIMT = node.state==='lock' ? 0.78 : 0;
+  const s = surf(node.x);
+  const lit = (node.state!=='lock');
+  if(i===0){ palm(node.x-16, s, 46); }
+  if(i===1){ house(node.x-24, s, 34, 26, {chimney:true, lit:true});
+             house(node.x+22, s, 27, 21, {lit:true, roof:PAL.roofO}); }
+  if(i===2){ barn(node.x, s, 48, 32, true); }
+  if(i===3){ [node.x-30, node.x-6, node.x+20].forEach(x=>tree(x, s, 15, 38));
+             sign(node.x-48, s); }
+  if(i===4){ house(node.x-12, s, 38, 29, {chimney:true, lit:true, plaster:true, roof:PAL.roofB});
+             gear(node.x+28, s-19, 11); }
+  if(i===5){ furnace(node.x, s); }
+  DIMT = 0;
+}
+NODES.forEach(landmark);
+
+/* ================= 7. 主角（站在当前区域右侧） ================= */
+const cur = NODES[2];
+drawHero(cur.x+46, surf(cur.x+46)-21);
+
+/* ================= 8. 地表细节（克制） ================= */
+[96,158,246,320,392,64].forEach(x=>tuft(x, surf(x)));
+[104,252,328,400,70].forEach(x=>flower(x, surf(x)));
+
+/* ================= 输出 ================= */
+document.getElementById('map').setAttribute('viewBox',`0 0 ${W} ${H}`);
+document.getElementById('map').innerHTML =
+  PIX.map(([x,y,c])=>`<rect x="${x}" y="${y}" width="1" height="1" fill="${c}"/>`).join('');
+const lbl=[];
+NODES.forEach(n=>{
+  const px=n.x/W*100, py=(surf(n.x)-66)/H*100;
+  lbl.push(`<div class="marker ${n.state}" style="left:${px}%;top:${py}%">
+    <div class="plate"><div class="nm">${n.name}</div><div class="st">${n.sub}</div></div></div>`);
+});
+lbl.push(`<div class="nowtag" style="left:${(cur.x+54)/W*100}%;top:${(surf(cur.x)-34)/H*100}%">你在这里</div>`);
+document.getElementById('mlabels').innerHTML=lbl.join('');
+document.getElementById('mlabels').style.cssText='position:absolute;inset:0;pointer-events:none;';
+</script>
+</body></html>

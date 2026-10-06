@@ -1,0 +1,18 @@
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+
+# Pyodide 运行时：由 npm install 的 postinstall 自动从 node_modules 复制生成
+# （13MB 的 wasm + 标准库，不进版本库）
+python-island/public/pyodide/
+
+# 本机参考素材与草稿，不发布
+work/
+
+# 本机杂项
+*.lnk
+nesimg-*.png
+.DS_Store
+Thumbs.db
