@@ -8,8 +8,9 @@ function ac(): AudioContext | null {
     if (!C) return null;
     ctx = new C();
   }
-  if (ctx.state === 'suspended') ctx.resume().catch(() => {});
-  return ctx;
+  const c = ctx as AudioContext;
+  if (c.state === 'suspended') c.resume().catch(() => {});
+  return c;
 }
 
 function tone(freq: number, dur: number, type: OscillatorType, gain: number, delay = 0) {

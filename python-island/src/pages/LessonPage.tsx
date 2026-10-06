@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type JSX } from 'react';
 import {
   LESSONS, TYPE_LABEL, lessonById, lessonsOfRegion, regionByLesson,
   isUnlocked, TOTAL_LESSONS,
@@ -278,6 +278,9 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
         <div className="navbtns">
           {prev && <button className="btn ghost" onClick={() => go(`/lesson/${prev.id}`)}>← 上一关</button>}
           <button className="btn ghost" onClick={() => go(region ? `/region/${region.id}` : '/')}>返回</button>
+          {lesson.order === TOTAL_LESSONS && passed && (
+            <button className="btn warn" onClick={() => go('/studio')}>🔧 毕业设计</button>
+          )}
           <button className="btn warn" disabled={!next || !passed} onClick={() => next && go(`/lesson/${next.id}`)}>
             下一关 →
           </button>

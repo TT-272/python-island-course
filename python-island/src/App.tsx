@@ -5,6 +5,7 @@ import { MapPage } from './pages/MapPage';
 import { RegionPage } from './pages/RegionPage';
 import { LessonPage } from './pages/LessonPage';
 import { BadgesPage } from './pages/BadgesPage';
+import { StudioPage } from './pages/StudioPage';
 import { AboutPage } from './pages/AboutPage';
 import { EnginePage } from './pages/EnginePage';
 
@@ -46,6 +47,7 @@ export default function App() {
       {route.name === 'region' && <RegionPage id={route.id} go={go} />}
       {route.name === 'lesson' && <LessonPage id={route.id} go={go} />}
       {route.name === 'badges' && <BadgesPage />}
+      {route.name === 'studio' && <StudioPage go={go} />}
       {route.name === 'about' && <AboutPage go={go} />}
       {route.name === 'engine' && <EnginePage />}
     </>

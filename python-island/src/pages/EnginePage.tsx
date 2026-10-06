@@ -57,12 +57,13 @@ export function EnginePage() {
     for (const l of LESSONS) {
       const r = await judge.run(l.exercise.solution, { stdin: l.exercise.stdin, tests: l.exercise.tests });
       const failed = r.error || r.timedOut || !r.ok || r.tests.some((t) => !t.passed);
+      const bad = r.tests.find((t) => !t.passed);
       rows.push({
         id: l.id,
         title: l.title,
         ok: !failed,
         detail: r.error?.friendly
-          ?? (r.tests.find((t) => !t.passed)?.name + '：' + r.tests.find((t) => !t.passed)?.detail)
+          ?? (bad ? `${bad.name}：${bad.detail}` : null)
           ?? '通过',
       });
       setContentRows([...rows]);

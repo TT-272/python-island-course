@@ -10,6 +10,7 @@ export type Route =
   | { name: 'region'; id: string }
   | { name: 'lesson'; id: string }
   | { name: 'badges' }
+  | { name: 'studio' }
   | { name: 'about' }
   | { name: 'engine' };
 
@@ -17,6 +18,7 @@ export function parsePath(path: string): Route {
   const p = path.replace(/\/+$/, '') || '/';
   if (p === '/') return { name: 'map' };
   if (p === '/badges') return { name: 'badges' };
+  if (p === '/studio') return { name: 'studio' };
   if (p === '/about') return { name: 'about' };
   if (p === '/engine') return { name: 'engine' };
   let m = p.match(/^\/region\/([^/]+)$/);

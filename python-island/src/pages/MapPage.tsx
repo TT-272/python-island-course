@@ -107,7 +107,12 @@ export function MapPage({ go }: { go: (to: string) => void }) {
               <div className="tip" style={{ marginBottom: 12 }}>{nl.summary}</div>
               <button className="btn warn sm" onClick={() => go(`/lesson/${nl.id}`)}>进入这一关 →</button>
             </>
-          ) : <div className="tip">全部做完了。</div>}
+          ) : (
+            <>
+              <div className="tip" style={{ marginBottom: 12 }}>第一季全部通关 —— 去做你的毕业设计吧。</div>
+              <button className="btn warn sm" onClick={() => go('/studio')}>🔧 进入毕业设计 →</button>
+            </>
+          )}
         </Card>
 
         <Card title="第二季 · 敬请期待">
