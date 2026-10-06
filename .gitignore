@@ -15,4 +15,5 @@ work/
 *.lnk
 nesimg-*.png
 .DS_Store
-Thumbs.dbpython-island/tsconfig.tsbuildinfo
+Thumbs.db
+python-island/tsconfig.tsbuildinfo
