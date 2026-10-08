@@ -15,9 +15,11 @@ export const py16: Lesson = {
     { t: 'code', lang: 'python', code: 'point = (3, 5)\npoint = list(point)   # 元组 → 列表\npoint[1] = 9\nprint(point)          # [3, 9]' },
     { t: 'p', text: 'list() 跟 int()、str() 是一家人，只不过这次变的是"元组变列表"。' },
     { t: 'tip', text: '那什么时候用元组？当这份数据本来就不该变的时候，比如一个坐标、一个颜色值。上锁是有意设计，不是 Python 的疏忽。' },
+    { t: 'tip', text: '还有一个经典坑：只有一个元素的元组要写成 (3,) —— 那个逗号不能省，否则 (3) 只是一个普通的数字 3，不是元组。' },
+    { t: 'key', text: '元组用 ( )，建好就不能改，改它会报错。' },
   ],
   exercise: {
-    prompt: '下面这段代码想改元组，一跑就报错。\n\n修好它，让它打印出：\n\n[3, 9]\n\n（注意：这一关要的是能改的列表，不是重新造一个新元组）',
+    prompt: '编辑器里这段代码想改元组，一跑就报错。\n\n修好它，让它打印出：\n\n[3, 9]\n\n（注意：这一关要的是能改的列表，不是重新造一个新元组）',
     starterCode: 'point = (3, 5)\n\n# 想把第二格改成 9\npoint[1] = 9\n\nprint(point)\n',
     tests: [
       {

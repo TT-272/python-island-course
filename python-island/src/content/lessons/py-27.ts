@@ -16,6 +16,7 @@ export const py27: Lesson = {
     { t: 'p', text: 'range 还能收第三个数字，叫"步长"，也就是每次走几步：' },
     { t: 'code', lang: 'python', code: 'range(5)          # 0 1 2 3 4       从 0 数 5 个\nrange(1, 4)       # 1 2 3           从 1 数到 4 之前\nrange(0, 10, 2)   # 0 2 4 6 8       每次跳 2 个\nrange(5, 0, -1)   # 5 4 3 2 1       步长写 -1 就是倒着数' },
     { t: 'tip', text: '注意 range(3) 里没有 3，只到 2 就停。这叫"含头不含尾"，跟列表编号从 0 开始是同一个脾气 —— 你会在这一关栽好几次，栽完就记住了。' },
+    { t: 'key', text: 'for i in range(n) 重复 n 次；range 含头不含尾。' },
   ],
   exercise: {
     prompt: '分两段打印，一共十行：\n\n第一段：用 range(5) 打印 0、1、2、3、4\n第二段：用 range 的步长倒着打印 5、4、3、2、1\n\n（预期输出：0 1 2 3 4 5 4 3 2 1，一行一个）',

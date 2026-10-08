@@ -14,6 +14,8 @@ export const py15: Lesson = {
     { t: 'code', lang: 'python', code: 'bag = ["苹果", "面包", "苹果", "牛奶"]\nprint(bag.count("苹果"))   # 2      有几个\nprint(bag.index("面包"))   # 1      在第几格\nprint("西瓜" in bag)       # False  有没有' },
     { t: 'p', text: 'count 只数长得一样的东西；index 给你第一个的编号（还是从 0 开始）；in 给你 True 或 False。' },
     { t: 'tip', text: '"西瓜" in bag 读起来就是英文的"西瓜在不在背包里"，Python 回你 True 或 False —— 跟第 8 关学的布尔值是一家人。' },
+    { t: 'tip', text: '坑：index 找不到东西时会直接报错（ValueError）。不确定在不在时，先用 in 判断，再决定要不要 index。' },
+    { t: 'key', text: 'count 数出现几次，index 找位置，in 判断在不在里面。' },
   ],
   exercise: {
     prompt: 'bag 已经建好了，里面装着 苹果、面包、苹果、牛奶。\n\n写三行 print，依次输出：\n\n1. 苹果有几个\n2. 面包在第几格\n3. 有没有西瓜\n\n（预期输出三行：2 / 1 / False）',

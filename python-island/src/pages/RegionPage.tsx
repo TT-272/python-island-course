@@ -10,6 +10,7 @@ export function RegionPage({ id, go }: { id: string; go: (to: string) => void })
   const lessons = lessonsOfRegion(region.id);
   const doneN = lessons.filter((l) => isDone(progress, l.id)).length;
   const isSoon = region.comingSoon || lessons.length === 0;
+  const exam = progress.exams[region.id];
 
   return (
     <div className="wrap">
@@ -49,6 +50,23 @@ export function RegionPage({ id, go }: { id: string; go: (to: string) => void })
                 </button>
               );
             })}
+          </div>
+        )}
+        {!isSoon && doneN === lessons.length && lessons.length > 0 && (
+          <div className="card" style={{ boxShadow: '0 0 0 3px var(--yellow)' }}>
+            <div className="hd"><span>🎓 这一区通关了</span></div>
+            <div className="bd">
+              <div className="tip">整区通关！做一套综合考题，把这一区彻底拿下。</div>
+              <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
+                <button className="btn ghost sm" onClick={() => go(`/region/${region.id}/summary`)}>📖 知识总结</button>
+                <button className="btn primary sm" onClick={() => go(`/region/${region.id}/exam`)}>📝 综合考题</button>
+              </div>
+              {exam && (
+                <div className="tip" style={{ marginTop: 10 }}>
+                  考试状态：{exam.passed ? '已通过 🎉' : '还没通过'}{exam.best > 0 ? ` · 最好成绩 ${Math.round(exam.best * 100)}%` : ''}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

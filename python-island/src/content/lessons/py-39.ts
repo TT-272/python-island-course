@@ -14,9 +14,10 @@ export const py39: Lesson = {
     { t: 'p', text: '看这个形状：lambda 参数: 表达式。冒号后面直接写结果，不用写 return，也不用缩进。' },
     { t: 'p', text: 'lambda 本身没有名字（所以也叫匿名函数），你通常把它塞给一个变量，或者直接交给别的函数用。' },
     { t: 'tip', text: '大多数时候你还是用 def 更清楚。lambda 适合"一眼就能看懂"的小计算 —— 看到别人代码里有它，别被吓到。' },
+    { t: 'key', text: 'lambda 是只写一行的迷你函数。' },
   ],
   exercise: {
-    prompt: '下面这个 lambda 算出来的永远是 0。\n\n把它补成正确的：接收 n，返回 n 的两倍。\n\n（预期输出两行：10 / 24）',
+    prompt: '编辑器里这个 lambda 算出来的永远是 0。\n\n把它补成正确的：接收 n，返回 n 的两倍。\n\n（预期输出两行：10 / 24）',
     starterCode: '# 把冒号后面的 0 换成正确的算式\ndouble = lambda n: 0\n\nprint(double(5))\nprint(double(12))\n',
     tests: [
       {

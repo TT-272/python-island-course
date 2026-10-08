@@ -16,6 +16,8 @@ export const py14: Lesson = {
     { t: 'p', text: 'max 和 min 还能直接比两个数，不用先装进列表：max(3, 5) 得 5，min(-1, 7) 得 -1。' },
     { t: 'p', text: '还有一个 pow —— 它是幂的函数写法：pow(2, 3) 就是 2 的 3 次方，跟 2 ** 3 完全一样。' },
     { t: 'tip', text: '名字都是英文缩写：len = length 长度，sum = 求和，max = maximum 最大，min = minimum 最小，sorted = 排好序，pow = power 幂。' },
+    { t: 'tip', text: '注意：sum / max / min 只能用在数字上。sum(["a", "b"]) 会报错；空列表求 max 也会报错（里面没有"最大的"）。' },
+    { t: 'key', text: 'len / sum / max / min / sorted 都是现成的统计工具，直接拿来用。' },
   ],
   exercise: {
     prompt: 'scores 里装着 [8, 3, 10, 5]。\n\n先自己算一遍，再写七行 print，依次输出：\n\n1. 一共几个\n2. 加起来多少\n3. 最大的\n4. 最小的\n5. 从小到大排好\n6. max(3, 5) 的结果\n7. pow(2, 3) 的结果\n\n（先猜答案，再点运行对一下）',

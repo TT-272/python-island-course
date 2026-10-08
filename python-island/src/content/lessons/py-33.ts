@@ -15,6 +15,7 @@ export const py33: Lesson = {
     { t: 'p', text: 'import 要写在最上面。random.randint(1, 6) 的意思是"随便给我一个 1 到 6 之间的整数"。' },
     { t: 'p', text: '注意 randint 的两个数字都包含：1 可能出现，6 也可能出现。这跟 range 的"含头不含尾"正相反。' },
     { t: 'tip', text: 'import 就是"把别人写好的工具箱搬进来"。Python 自带上百个工具箱，以后你会经常用到这行。' },
+    { t: 'key', text: 'import random 后，random.randint(a, b) 给你 a 到 b 的随机整数（含两端）。' },
   ],
   exercise: {
     prompt: '掷 5 次骰子，把每次的结果打印出来（一行一个）。\n\n用 for 循环，每次打印 random.randint(1, 6)。\n\n（每次运行结果都不一样，这是正常的）',

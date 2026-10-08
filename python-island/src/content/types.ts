@@ -1,7 +1,9 @@
 export type Block =
   | { t: 'p'; text: string }
   | { t: 'code'; lang: 'python'; code: string }
-  | { t: 'tip'; text: string };
+  | { t: 'tip'; text: string }
+  /** 重点：本关必须记住的知识点 */
+  | { t: 'key'; text: string };
 
 export type LessonType = 'guided' | 'fill' | 'predict' | 'debug' | 'scratch' | 'free';
 

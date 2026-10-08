@@ -16,6 +16,9 @@ export const py08: Lesson = {
     { t: 'p', text: '比较用的符号：> 大于、< 小于、>= 大于等于、<= 小于等于、== 等于、!= 不等于。' },
     { t: 'p', text: '最容易搞混的是 = 和 ==：一个等号是"装进盒子"，两个等号是"问一句相不相等"。' },
     { t: 'tip', text: '大小写也算数。"a" == "A" 是 False —— 在 Python 眼里，a 和 A 是两个完全不同的字符。' },
+    { t: 'p', text: '这些 True / False 现在看着没用，但下一区就派上大用场 —— if 判断靠的就是它们。' },
+    { t: 'code', lang: 'python', code: 'age = 20\nprint(age >= 18)   # True\nprint(age >= 30)   # False' },
+    { t: 'key', text: '= 是赋值（装东西），== 是比较（问相不相等）；True / False 首字母必须大写。' },
   ],
   exercise: {
     prompt: '写五行 print，输出下面五个式子的结果（一行一个）：\n\n5 > 3\n5 < 3\n10 == 10\n10 != 10\n"a" == "A"\n\n（先猜结果，再运行对答案）',

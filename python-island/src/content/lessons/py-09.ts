@@ -20,9 +20,11 @@ export const py09: Lesson = {
     { t: 'p', text: 'f 是 format（格式化）的意思。花括号里不只能放变量，还能放算式 —— f"{num + 1}" 会得到 43。' },
     { t: 'p', text: '那 str() 还有用吗？有。str() 是"把数字变成文字"，f-string 是"把东西塞进句子里"，分工不同，两个都要会。' },
     { t: 'tip', text: '这几招最常用来对付 input() —— 因为 input() 拿回来的永远是文字，哪怕用户输入的是数字。下一关你就会撞上它。' },
+    { t: 'tip', text: '变形术有前提：只能变"长得像数字"的文字。int("abc") 会报错；int("3.5") 也会报错 —— 小数要用 float()。' },
+    { t: 'key', text: '数字和文字不能直接相加。要先用 int() / float() / str() 变形，或者用 f-string 直接塞进去。' },
   ],
   exercise: {
-    prompt: '三张登记表格式不对，帮它们变个形。让程序输出四行：\n\n43\n6.28\n42号\n编号42\n\n第 3 行用 str() 拼出来，第 4 行用 f-string 写。',
+    prompt: '起手代码里已经给你三个值：raw、raw2、num（都是"格式不对"的样子）。帮它们变个形，让程序输出四行：\n\n43\n6.28\n42号\n编号42\n\n第 3 行用 str() 拼出来，第 4 行用 f-string 写。',
     starterCode: 'raw = "42"\nraw2 = "3.14"\nnum = 42\n\n# 第 1 行：把 raw 变成整数，加 1，打印\n\n# 第 2 行：把 raw2 变成小数，乘 2，打印\n\n# 第 3 行：把 num 变成文字，拼上 "号"，打印\n\n# 第 4 行：用 f-string 打印"编号"加上 num\n',
     tests: [
       {

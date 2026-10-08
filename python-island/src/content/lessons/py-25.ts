@@ -15,6 +15,7 @@ export const py25: Lesson = {
     { t: 'p', text: '除了它们，其他基本都是 True。特别注意：" "（里面有一个空格）不是空的，所以它是 True。' },
     { t: 'p', text: '想亲眼看看某样东西是真是假，用 bool() 套一下就行 —— 又是变形术，跟 int()、str() 是一家人。' },
     { t: 'tip', text: '这个特性很实用：想检查用户有没有填东西、列表里有没有内容，直接写 if 列表: 就行，不用写 if len(列表) > 0:。' },
+    { t: 'key', text: '0、""、[]、None 本身就当「假」处理。' },
   ],
   exercise: {
     prompt: '先自己猜一遍，再写六行 print 输出下面六个式子的结果（一行一个）：\n\nbool(0)\nbool(1)\nbool("")\nbool(" ")\nbool([])\nbool(None)\n\n（第四个是个小陷阱，看仔细）',

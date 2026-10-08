@@ -16,9 +16,12 @@ export const py13: Lesson = {
     { t: 'p', text: 'remove 和 pop 容易混：remove 是"我知道不要哪个，按内容找"，pop 是"我知道不要第几个，按位置拿"。pop 不填位置就默认拿最后一个。' },
     { t: 'p', text: '注意 insert 有两个参数：先写插到第几格，再写插什么。' },
     { t: 'tip', text: 'insert 之后，原来那一格以及它后面的东西都会自动往后挪一格 —— 列表会自己腾地方，你不用管。' },
+    { t: 'p', text: '把每一步改之前、改之后摆出来看，就清楚多了：' },
+    { t: 'code', lang: 'python', code: 'shelf = ["苹果", "牛奶"]\nshelf.append("面包")     # ["苹果", "牛奶", "面包"]\nshelf.insert(0, "鸡蛋")  # ["鸡蛋", "苹果", "牛奶", "面包"]\nshelf.remove("牛奶")     # ["鸡蛋", "苹果", "面包"]\nshelf.pop()              # ["鸡蛋", "苹果"]' },
+    { t: 'key', text: '列表能改：append 加到末尾，insert 插进去，remove / pop 删掉。' },
   ],
   exercise: {
-    prompt: 'shelf 这个货架现在装着 ["苹果", "牛奶"]。\n\n把下面三个 "???" 换成正确的东西，再加一行用 pop() 把最后一个拿掉。\n\n货架最后应该变成：\n\n[\'鸡蛋\', \'苹果\']\n\n也就是：末尾加上面包、最前面插入鸡蛋、把牛奶拿掉、最后 pop 掉一个。',
+    prompt: 'shelf 这个货架现在装着 ["苹果", "牛奶"]。\n\n把编辑器里那三个 "???" 换成正确的东西，再加一行用 pop() 把最后一个拿掉。\n\n货架最后应该变成：\n\n[\'鸡蛋\', \'苹果\']\n\n也就是：末尾加上面包、最前面插入鸡蛋、把牛奶拿掉、最后 pop 掉一个。',
     starterCode: 'shelf = ["苹果", "牛奶"]\n\n# 把下面三个 "???" 换成题目要求的东西\nshelf.append("???")\nshelf.insert(0, "???")\nshelf.remove("???")\n\n# 再加一行：用 pop() 把最后一个拿掉\n\nprint(shelf)\n',
     requires: ['list'],
     tests: [

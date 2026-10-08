@@ -14,6 +14,8 @@ export const py17: Lesson = {
     { t: 'code', lang: 'python', code: 'stock = {"苹果": 3, "面包": 5}\nprint(stock["苹果"])   # 3\nprint(stock["面包"])   # 5' },
     { t: 'p', text: '冒号左边是名字，右边是值。取值的时候把名字写进方括号 —— 这里是名字，不是编号。' },
     { t: 'tip', text: '列表和字典的区别，一句话就说完：列表按"第几个"找，字典按"叫什么"找。用哪个，看你怎么记住这个东西。' },
+    { t: 'tip', text: '拿字典里没有的名字会报 KeyError。不确定有没有，先用 in 问一句：if "牛奶" in stock: ...' },
+    { t: 'key', text: '字典用 { }，按「键（名字）」找值，不按编号找。' },
   ],
   exercise: {
     prompt: '建一个字典 stock，装两样货：苹果 3 个、面包 5 个。\n\n然后打印出面包的数量。\n\n（预期输出：5）',

@@ -124,9 +124,10 @@ h1.title{font-family:var(--pixel);font-size:23px;color:#fff;margin:0 0 7px}
 .nodehit:disabled{cursor:default}
 
 /* ---------------- 关卡页 ---------------- */
-.lesson{display:flex;gap:16px;align-items:flex-start}
-.lesson .left{flex:1 1 46%;min-width:0}
-.lesson .right{flex:1 1 54%;min-width:0}
+.lesson{display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.lesson .left{flex:1 1 30%;min-width:300px}
+.lesson .right{flex:1 1 42%;min-width:340px}
+.lesson .ai{flex:0 0 336px;width:336px}
 .kicker{font-family:var(--pixel);font-size:10px;color:var(--yellow);margin-bottom:12px;
         display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .kicker .tag{border:3px solid #000;background:#2b3242;padding:4px 8px;color:#cfd7e5;font-size:9.5px}
@@ -145,6 +146,23 @@ h2.ltitle{font-family:var(--pixel);font-size:26px;color:#fff;margin:0 0 14px;lin
 .exercise .bugcode{font-family:var(--mono);font-size:13.5px;line-height:2;color:#9fd3ff;white-space:pre-wrap;word-break:break-word}
 .exercise .bugspot{color:#ffd8ce;background:rgba(231,110,85,.20);outline:3px solid var(--red);outline-offset:1px;padding:2px 3px}
 .exercise .bugnote{margin-top:9px;font-size:12.5px;line-height:1.7;color:#ffab97}.helper{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:3px dashed #2c3140}
+/* 开工前先看：系统已经给你准备了什么 */
+/* 重点区块 */
+.blocks .keyblk{border-left:6px solid var(--green);background:#12200f;padding:11px 14px;margin:0 0 13px;
+                font-size:14.5px;line-height:1.85;color:#e2f4cd;display:flex;gap:9px;align-items:flex-start}
+.blocks .keyblk .keytag{flex:none;font-family:var(--pixel);font-size:10px;background:var(--green);color:#10240a;
+                        padding:4px 7px;border:3px solid #000;margin-top:2px}
+.prep{margin-top:16px;border:3px solid var(--purple);background:#171326;padding:13px 15px}
+.prep .prep-h{font-family:var(--pixel);font-size:13px;color:#c9b6ff;margin-bottom:10px}
+.prep .prep-item{font-size:13.5px;line-height:1.85;color:#d8d2ea;margin-bottom:9px}
+.prep .prep-item:last-child{margin-bottom:0}
+.prep .prep-item b{color:#e6ddff}
+.prep code{font-family:var(--mono);font-size:13px;color:#ffe680}
+.prep .prep-code{margin:7px 0 0;background:#0a0f16;border:3px solid #2a2440;padding:9px 11px;
+                 font-family:var(--mono);font-size:13px;line-height:1.7;color:#9fd3ff;
+                 white-space:pre-wrap;word-break:break-word;overflow:auto}
+.prep .prep-val{display:inline-block;margin:0 4px;background:#2a2440;border:2px solid #4b3f78;
+                padding:1px 7px;font-family:var(--mono);font-size:13px;color:#ffe680}
 .hintbox{margin-top:12px;border:3px solid var(--line);background:#151a22;padding:12px 14px;font-size:13.5px;line-height:1.85}
 .hintbox .h{margin-bottom:6px;color:var(--yellow);font-family:var(--pixel);font-size:12px}
 .answerbox{border-color:var(--red)}
@@ -164,7 +182,10 @@ h2.ltitle{font-family:var(--pixel);font-size:26px;color:#fff;margin:0 0 14px;lin
         display:flex;align-items:center;gap:14px;padding:10px 26px;margin-top:20px;z-index:40}
 .bottom .name{font-size:14px;display:flex;align-items:center;gap:10px}
 .bottom .xp{font-family:var(--pixel);font-size:9px;background:#2b3242;border:3px solid #000;padding:5px 8px;color:var(--yellow)}
-.bottom .navbtns{margin-left:auto;display:flex;gap:10px}
+.bottom .navbtns{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.lselect{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--dim)}
+.lselect select{background:#262b36;color:var(--text);border:4px solid #000;box-shadow:0 4px 0 #000;padding:9px 12px;font-family:inherit;font-size:13.5px;cursor:pointer;max-width:300px}
+.lselect select:focus{outline:none}
 .toasts{position:fixed;right:24px;bottom:86px;display:flex;flex-direction:column;gap:11px;
         width:330px;z-index:60;pointer-events:none}
 .toast{border:4px solid #000;padding:13px 15px;display:flex;gap:11px;align-items:flex-start;
@@ -207,3 +228,55 @@ h2.ltitle{font-family:var(--pixel);font-size:26px;color:#fff;margin:0 0 14px;lin
 .sec{margin:0 0 18px}
 .sec h3{font-family:var(--pixel);font-size:16px;color:#fff;margin:0 0 10px}
 .loading{color:var(--dim);font-size:13px}
+
+/* ---------------- AI 老师 ---------------- */
+.ai-hdbtns{display:flex;gap:6px}
+.ai-icon{background:none;border:0;cursor:pointer;font-size:14px;line-height:1;padding:2px 4px;opacity:.75}
+.ai-icon:hover{opacity:1}
+.ai{display:flex;flex-direction:column;gap:10px;height:min(72vh,600px)}
+.ai-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-right:4px}
+.ai-empty{color:var(--dim);font-size:13px;line-height:1.9}
+.ai-msg{display:flex;flex-direction:column;gap:4px}
+.ai-msg.user{align-items:flex-end}
+.ai-who{font-family:var(--pixel);font-size:9px;color:var(--green)}
+.ai-bubble{padding:9px 11px;border:3px solid #000;font-size:13.5px;line-height:1.8;white-space:pre-wrap;word-break:break-word}
+.ai-msg.assistant .ai-bubble{background:#151a22;box-shadow:0 0 0 1px var(--line)}
+.ai-msg.user .ai-bubble{background:#153048;box-shadow:0 0 0 1px var(--blue)}
+.ai-err{color:#ff9c86;font-size:12.5px;line-height:1.7;border:3px solid var(--red);background:#2a1512;padding:9px 11px}
+.ai-quick{display:flex;gap:8px;flex-wrap:wrap}
+.ai-input{display:flex;gap:8px;align-items:flex-end}
+.ai-input textarea{flex:1;resize:vertical;min-height:64px;max-height:160px;background:#0a0f16;color:var(--text);border:3px solid #232b3a;padding:9px 11px;font-family:var(--body);font-size:13.5px;line-height:1.7}
+.ai-input textarea:focus{outline:none;border-color:var(--blue)}
+.ai-settings{display:flex;flex-direction:column;gap:10px}
+.ai-presets{display:flex;gap:8px;flex-wrap:wrap}
+.ai-field{display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--dim)}
+.ai-field input{background:#0a0f16;color:var(--text);border:3px solid #232b3a;padding:8px 10px;font-family:var(--mono);font-size:13px}
+.ai-field input:focus{outline:none;border-color:var(--blue)}
+.ai-save{display:flex}
+.ai-note{font-size:12px;color:var(--dim);line-height:1.8}
+
+/* 窄屏：AI 老师移到下面，再窄就全部堆叠 */
+@media (max-width:1320px){ .lesson .ai{flex:1 1 100%;width:auto} }
+@media (max-width:1000px){ .lesson .left,.lesson .right{flex:1 1 100%} }
+
+/* ---------------- 综合考题 / 知识总结 ---------------- */
+.exam-result{display:flex;gap:12px;align-items:center;border:4px solid #000;padding:14px 16px;margin-bottom:14px}
+.exam-result.pass{background:#16290f;box-shadow:0 0 0 3px var(--green)}
+.exam-result.fail{background:#2a1d12;box-shadow:0 0 0 3px var(--yellow)}
+.exam-result b{font-family:var(--pixel);font-size:13px;color:#fff}
+.q{padding:12px 0;border-bottom:2px dashed #2c3140}
+.q:last-child{border-bottom:0}
+.q-q{font-size:14.5px;line-height:1.8;margin-bottom:9px;color:#fff}
+.q-opts{display:flex;flex-direction:column;gap:7px}
+.q-opt{display:flex;align-items:center;gap:9px;text-align:left;font:inherit;font-size:13.5px;color:var(--text);
+       background:#1a2029;border:3px solid #2c3140;padding:9px 12px;cursor:pointer}
+.q-opt:hover:not(:disabled){border-color:var(--blue)}
+.q-opt:disabled{cursor:default}
+.q-opt .q-mark{font-family:var(--pixel);font-size:11px;color:var(--dim);flex:none}
+.q-opt.chosen{border-color:var(--blue);background:#132231}
+.q-opt.right{border-color:var(--green);background:#12200f}
+.q-opt.wrong{border-color:var(--red);background:#241310}
+.q-explain{margin-top:9px;font-size:13px;line-height:1.8;padding:8px 11px;border-left:5px solid var(--line);background:#151a22;color:#cdd4e2}
+.q-explain.ok{border-color:var(--green)}
+.q-explain.bad{border-color:var(--red)}
+.exam-result .pass, .exam-result.pass b{color:#dff3c8}

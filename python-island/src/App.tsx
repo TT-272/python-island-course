@@ -8,6 +8,8 @@ import { BadgesPage } from './pages/BadgesPage';
 import { StudioPage } from './pages/StudioPage';
 import { AboutPage } from './pages/AboutPage';
 import { EnginePage } from './pages/EnginePage';
+import { RegionSummaryPage } from './pages/RegionSummaryPage';
+import { RegionExamPage } from './pages/RegionExamPage';
 
 export default function App() {
   const [route, go] = useRoute();
@@ -45,6 +47,8 @@ export default function App() {
 
       {route.name === 'map' && <MapPage go={go} />}
       {route.name === 'region' && <RegionPage id={route.id} go={go} />}
+      {route.name === 'summary' && <RegionSummaryPage id={route.id} go={go} />}
+      {route.name === 'exam' && <RegionExamPage id={route.id} go={go} />}
       {route.name === 'lesson' && <LessonPage id={route.id} go={go} />}
       {route.name === 'badges' && <BadgesPage />}
       {route.name === 'studio' && <StudioPage go={go} />}

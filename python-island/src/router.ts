@@ -9,6 +9,8 @@ export type Route =
   | { name: 'map' }
   | { name: 'region'; id: string }
   | { name: 'lesson'; id: string }
+  | { name: 'summary'; id: string }
+  | { name: 'exam'; id: string }
   | { name: 'badges' }
   | { name: 'studio' }
   | { name: 'about' }
@@ -21,7 +23,9 @@ export function parsePath(path: string): Route {
   if (p === '/studio') return { name: 'studio' };
   if (p === '/about') return { name: 'about' };
   if (p === '/engine') return { name: 'engine' };
-  let m = p.match(/^\/region\/([^/]+)$/);
+  let m = p.match(/^\/region\/([^/]+)\/(summary|exam)$/);
+  if (m) return { name: m[2] === 'summary' ? 'summary' : 'exam', id: decodeURIComponent(m[1]) } as Route;
+  m = p.match(/^\/region\/([^/]+)$/);
   if (m) return { name: 'region', id: decodeURIComponent(m[1]) };
   m = p.match(/^\/lesson\/([^/]+)$/);
   if (m) return { name: 'lesson', id: decodeURIComponent(m[1]) };

@@ -16,9 +16,10 @@ export const py32: Lesson = {
     { t: 'p', text: '坑二：死循环。while 的条件如果永远成立，程序就永远停不下来：' },
     { t: 'code', lang: 'python', code: 'n = 1\nwhile n <= 5:\n    print(n)\n    # 忘了 n = n + 1 → 这一行下面全是 1，永远停不下来' },
     { t: 'tip', text: '写 while 的时候，养成一个习惯：写完先问自己一句"什么东西在变？它早晚会让条件不成立吗？" 答不上来，多半就是死循环。' },
+    { t: 'key', text: 'range(5) 给的是 0~4；忘了更新条件就是死循环。' },
   ],
   exercise: {
-    prompt: '下面这段想打印 1 到 5，但只打印到 4 就停了。\n\n找出问题，修好它。\n\n（预期输出：1 / 2 / 3 / 4 / 5）',
+    prompt: '编辑器里这段想打印 1 到 5，但只打印到 4 就停了。\n\n找出问题，修好它。\n\n（预期输出：1 / 2 / 3 / 4 / 5）',
     starterCode: '# 想打印 1 到 5\nfor i in range(1, 5):\n    print(i)\n',
     requires: ['for'],
     tests: [

@@ -15,6 +15,7 @@ export const py23: Lesson = {
     { t: 'p', text: '还有一件新手想不到的事：文字也能比大小，但比的是"一个一个字符往下比"，跟数值大小完全没关系。' },
     { t: 'code', lang: 'python', code: 'print("apple" < "banana")   # True   a 排在 b 前面\nprint("10" < "9")           # True   第一位 1 比 9 小，后面就不看了' },
     { t: 'tip', text: '数字和文字不能比大小：5 < "6" 会直接报 TypeError。想比就先变形，让两边变成同一种东西。' },
+    { t: 'key', text: '== 是问相等，= 是赋值；文字也能比大小（按字典顺序）。' },
   ],
   exercise: {
     prompt: '先自己算一遍，再写五行 print 把它们打出来（一行一个）：\n\n10 >= 10\n10 <= 9\n"apple" < "banana"\n"2" == 2\n"10" < "9"\n\n（猜完再点运行对答案，最后两个最值得琢磨）',

@@ -6,6 +6,8 @@ import {
 import { Judge, type JudgeResult } from '../runtime/judge';
 import { CodeEditor } from '../ui/CodeEditor';
 import { Px12, Card } from '../ui/Frame';
+import { Blocks } from '../ui/Blocks';
+import { AiTeacher } from '../ui/AiTeacher';
 import { actions, useProgress, isDone, tierOf } from '../state/progress';
 import { playWin, playFail, playClick } from '../ui/sound';
 
@@ -58,6 +60,9 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
   const unlocked = isUnlocked(lesson.id, (x) => isDone(progress, x));
   const rec = progress.lessons[id];
   const card = rec?.done ? tierOf(rec) : null;
+  // 已通关的关卡，底部下拉里可自由选择，方便回头复习
+  const clearedLessons = LESSONS.filter((l) => isDone(progress, l.id));
+  const onClearedLesson = clearedLessons.some((l) => l.id === lesson.id);
 
   // 找 bug 关：把起手代码里的坏地方圈出来，让学员一眼看到该修哪儿
   const bugSpot = lesson.type === 'debug' ? lesson.exercise.bugSpot : undefined;
@@ -141,6 +146,19 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
     return rows;
   })();
 
+  // 给 AI 老师看的纯文字版结果
+  const resultText = (() => {
+    if (!result) return '';
+    if (result.timedOut) return '运行超时：' + (result.error?.friendly ?? '');
+    if (result.error) return '运行报错：' + result.error.friendly + '\n原始报错：' + result.error.type + ': ' + result.error.message;
+    const parts: string[] = [];
+    parts.push('输出：\n' + (result.stdout?.trim() || '（没有输出）'));
+    if (result.tests.length) {
+      for (const t of result.tests) parts.push((t.passed ? '✓ ' : '✗ ') + t.name + (t.passed ? '' : (t.detail ? ' —— ' + t.detail : '')));
+    }
+    return parts.join('\n');
+  })();
+
   return (
     <>
       <div className="wrap">
@@ -155,14 +173,29 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
             </div>
             <h2 className="ltitle">{lesson.title}</h2>
 
-            <div className="blocks">
-              {lesson.content.map((b, i) => {
-                if (b.t === 'p') return <p key={i}>{b.text}</p>;
-                if (b.t === 'code') return <div key={i} className="code">{b.code}</div>;
-                return <div key={i} className="tip">{b.text}</div>;
-              })}
-            </div>
+            <Blocks blocks={lesson.content} />
 
+            {/* 开工前先看：系统已经替你准备了什么 —— 免得把"给你的"当成"要自己写的" */}
+            <div className="prep">
+              <div className="prep-h">📦 已经给你准备好</div>
+              <div className="prep-item">
+                <b>编辑器里的起手代码</b>（已经写好了，不用重敲）：
+                <pre className="prep-code">{lesson.exercise.starterCode.trim() || '（空白，从零写起）'}</pre>
+              </div>
+              {lesson.exercise.stdin != null && (
+                <div className="prep-item">
+                  <b>运行时的自动输入</b>：点「运行 / 提交」时，<code>input()</code> 会自动收到
+                  <code className="prep-val">{lesson.exercise.stdin}</code>
+                  —— 这个值<b>不用你自己写</b>，你只要把它接住、接着往下处理。
+                </div>
+              )}
+              <div className="prep-item">
+                <b>你要补的</b>：
+                {lesson.type === 'debug'
+                  ? '把起手代码里出错的地方改掉。'
+                  : '在起手代码的基础上，把下面「你的任务」要求的东西补出来。'}
+              </div>
+            </div>
             <div className="exercise">
               <h3>你的任务</h3>
               <div className="prompt">{lesson.exercise.prompt}</div>
@@ -271,6 +304,19 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
               {result?.fatal && <div className="err">{result.fatal}</div>}
             </div>
           </div>
+
+          {/* AI 老师：右侧聊天栏 */}
+          <div className="ai">
+            <AiTeacher
+              lessonId={lesson.id}
+              lessonTitle={lesson.title}
+              lessonOrder={lesson.order}
+              prompt={lesson.exercise.prompt}
+              starterCode={lesson.exercise.starterCode}
+              code={code}
+              resultText={resultText}
+            />
+          </div>
         </div>
       </div>
 
@@ -281,7 +327,19 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
           <span className="tip">第 {lesson.order} / {TOTAL_LESSONS} 关</span>
         </div>
         <div className="navbtns">
-          {prev && <button className="btn ghost" onClick={() => go(`/lesson/${prev.id}`)}>← 上一关</button>}
+          {clearedLessons.length > 0 && (
+            <label className="lselect">
+              <span>已通关</span>
+              <select value={onClearedLesson ? lesson.id : ''}
+                      onChange={(e) => e.target.value && go(`/lesson/${e.target.value}`)}>
+                {!onClearedLesson && <option value="" disabled>选一关复习…</option>}
+                {clearedLessons.map((l) => (
+                  <option key={l.id} value={l.id}>{`第 ${l.order} 关 · ${l.title}`}</option>
+                ))}
+              </select>
+            </label>
+          )}
+          <button className="btn ghost" disabled={!prev} onClick={() => prev && go(`/lesson/${prev.id}`)}>← 上一关</button>
           <button className="btn ghost" onClick={() => go(region ? `/region/${region.id}` : '/')}>返回</button>
           {lesson.order === TOTAL_LESSONS && passed && (
             <button className="btn warn" onClick={() => go('/studio')}>🔧 毕业设计</button>

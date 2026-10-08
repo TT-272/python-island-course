@@ -15,6 +15,9 @@ export const py05: Lesson = {
     { t: 'p', text: '这里的 = 不是数学里的"等于"，是"把右边装进左边"。上面这行读作：把 "小船长" 装进叫 name 的盒子。' },
     { t: 'p', text: '盒子里的东西随时能取出来用，而且取多少次都不会少。' },
     { t: 'tip', text: '变量名用英文小写，比如 name、age、score —— 这是全世界的习惯。Python 其实允许中文变量名，但没人那么写，你以后看别人的代码会看不懂。' },
+    { t: 'p', text: '盒子里的东西还能换 —— 再赋一次值，新的就盖掉旧的：' },
+    { t: 'code', lang: 'python', code: 'score = 10\nprint(score)   # 10\nscore = 20     # 重新装一次，旧的被盖掉\nprint(score)   # 20' },
+    { t: 'key', text: '= 不是"等于"，是"把右边装进左边"；变量名用小写英文，比如 name、age。' },
   ],
   exercise: {
     prompt: '照上面的写法，建一个变量 name，把 "小船长" 装进去，然后打印它。\n\n（预期输出：小船长）',

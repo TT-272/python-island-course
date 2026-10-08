@@ -1,6 +1,12 @@
 import { useSyncExternalStore } from 'react';
 import { LESSONS, lessonById } from '../content';
 
+export type ExamProgress = {
+  passed: boolean;
+  /** 选择题答对的比例，0~1 */
+  best: number;
+};
+
 export type CardTier = 'gold' | 'silver' | 'grey';
 
 export type LessonProgress = {
@@ -13,6 +19,8 @@ export type LessonProgress = {
 };
 
 export type Progress = {
+  /** 区域综合考题：通过与否 + 历史最好分 */
+  exams: Record<string, ExamProgress>;
   v: 1;
   lessons: Record<string, LessonProgress>;
   settings: { sound: boolean };
@@ -20,7 +28,7 @@ export type Progress = {
 
 const KEY = 'python-island:progress:v1';
 
-const EMPTY: Progress = { v: 1, lessons: {}, settings: { sound: true } };
+const EMPTY: Progress = { v: 1, lessons: {}, exams: {}, settings: { sound: true } };
 
 function load(): Progress {
   try {
@@ -28,7 +36,7 @@ function load(): Progress {
     if (!raw) return structuredClone(EMPTY);
     const p = JSON.parse(raw) as Progress;
     if (p?.v !== 1 || typeof p.lessons !== 'object') return structuredClone(EMPTY);
-    return { v: 1, lessons: p.lessons ?? {}, settings: { sound: p.settings?.sound ?? true } };
+    return { v: 1, lessons: p.lessons ?? {}, exams: p.exams ?? {}, settings: { sound: p.settings?.sound ?? true } };
   } catch {
     return structuredClone(EMPTY);
   }
@@ -105,6 +113,13 @@ export const actions = {
       passedAt: new Date().toISOString(),
     };
     commit({ ...state, lessons: { ...state.lessons, [lessonId]: next } });
+  },
+
+  /** 记录一次区域考试结果（分数只取更高的一次） */
+  markExam(regionId: string, ratio: number, passed: boolean) {
+    const cur = state.exams[regionId] ?? { passed: false, best: 0 };
+    const next: ExamProgress = { passed: cur.passed || passed, best: Math.max(cur.best, ratio) };
+    commit({ ...state, exams: { ...state.exams, [regionId]: next } });
   },
 
   toggleSound() {

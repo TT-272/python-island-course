@@ -16,6 +16,7 @@ export const py37: Lesson = {
     { t: 'p', text: 'return 和 print 是两回事：print 只是给人看的，return 才是真的把值交出来。' },
     { t: 'code', lang: 'python', code: 'def f():\n    return 3\n\nprint(f() + 1)     # 4   送出来的值能接着算' },
     { t: 'tip', text: '函数跑到 return 那一行就结束了，后面的代码一概不执行。' },
+    { t: 'key', text: 'return 把结果交给外面用；print 只是显示出来，性质不一样。' },
   ],
   exercise: {
     prompt: '写一个函数 double：接收一个数字，返回它的两倍。\n\n然后打印 double(5) 和 double(12) 的结果。\n\n（预期输出两行：10 / 24）',

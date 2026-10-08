@@ -32,7 +32,7 @@ export function BadgesPage() {
                     </div>
                     <div className="tip">
                       {st === 'soon' ? `计划 ${r.planned} 关`
-                        : st === 'done' ? `已通关${gold ? ' · 全区金卡' : ''}`
+                        : st === 'done' ? `已通关${gold ? ' · 全区金卡' : ''}${progress.exams[r.id]?.passed ? ' · 考试通过' : ''}`
                         : `${doneN} / ${lessons.length} 关`}
                     </div>
                   </div>

@@ -9,14 +9,16 @@ export const py03: Lesson = {
   xp: 10,
   summary: '第一次读懂报错，然后把它修好',
   content: [
-    { t: 'p', text: '下面这段代码是故意写坏的。' },
+    { t: 'p', text: '编辑器里这段代码是故意写坏的。' },
     { t: 'p', text: '引号没闭合，是新手最常见的错误 —— 你以后一定会遇到很多次。' },
     { t: 'p', text: '好消息是：Python 会明确告诉你错在第几行。' },
     { t: 'p', text: '你的任务不是重写，是把它修好。' },
     { t: 'tip', text: '这一关学的东西比 print 重要得多：看懂报错 → 找到问题 → 修好它。这个循环你以后要走几千遍。' },
+    { t: 'code', lang: 'python', code: '# 运行后会看到类似这样一行报错：\n# SyntaxError: unterminated string literal (detected at line 1)\n# 翻译成人话：第 1 行的字符串引号没关上。' },
+    { t: 'key', text: '报错会告诉你错在第几行；引号、括号没配对是最常见的错。' },
   ],
   exercise: {
-    prompt: '这段代码跑不起来。修好它，让它打印出：Python 很好玩',
+    prompt: '编辑器里这段代码跑不起来。修好它，让它打印出：Python 很好玩',
     // 故意不加换行：光标落在第 1 行末尾，正好是缺引号的位置
     starterCode: 'print("Python 很好玩)',
     tests: [

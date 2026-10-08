@@ -16,6 +16,7 @@ export const py38: Lesson = {
     { t: 'code', lang: 'python', code: 'def add(lst):\n    lst.append(99)\n\nbag = [1, 2]\nadd(bag)\nprint(bag)    # [1, 2, 99] —— 变了！' },
     { t: 'p', text: '因为列表是"一箱子东西"。传进去的是这个箱子本身（不是箱子的复印件），在函数里往箱子里放东西，外面看到的还是同一个箱子。' },
     { t: 'tip', text: '记这一句就够：数字、字符串在函数里改了，外面不变；列表在函数里改了，外面会变。' },
+    { t: 'key', text: '数字参数改了不影响外面；列表参数改了会影响外面。' },
   ],
   exercise: {
     prompt: '下面两个函数已经写好了：add_one 把数字加 1，add_item 往列表末尾加一个苹果。\n\n先自己猜：\n\nscore 是 10，调用 add_one(score) 之后打印 score，会输出什么？\nbag 是 ["面包"]，调用 add_item(bag) 之后打印 bag，会输出什么？\n\n猜完把这两段补进编辑器，运行对答案。\n\n（预期输出两行）',

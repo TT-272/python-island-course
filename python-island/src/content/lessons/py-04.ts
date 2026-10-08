@@ -14,6 +14,8 @@ export const py04: Lesson = {
     { t: 'p', text: 'print() 写几次，就输出几行。就这么简单。' },
     { t: 'p', text: '这一关没有新语法 —— 用你已经会的东西就够了。' },
     { t: 'p', text: '天黑了。篝火点起来，写下你今天的三句话。' },
+    { t: 'p', text: '注意顺序：Python 从上往下执行，先写的先输出。' },
+    { t: 'key', text: '想输出几行，就写几行 print()。' },
   ],
   exercise: {
     prompt: '依次输出三行（内容和顺序都要对）：\n\n我在 Python 岛\n今天学会了 print\n明天继续',

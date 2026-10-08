@@ -15,9 +15,10 @@ export const py28: Lesson = {
     { t: 'p', text: '字符串也能挨个看，一个字符一次：' },
     { t: 'code', lang: 'python', code: 'for c in "abc":\n    print(c)      # a b c' },
     { t: 'tip', text: '这个写法叫"遍历"。列表、字符串、还有你学过的字典，都能被 for 遍历 —— 这是 Python 里最好用的一招。' },
+    { t: 'key', text: 'for x in 列表或文字：一个一个拿出来处理。' },
   ],
   exercise: {
-    prompt: 'songs 里装着三首歌。\n\n把下面那行的 "???" 换成正确的东西，让程序挨个把三首歌打印出来。\n\n（预期输出三行：稻香 / 晴天 / 七里香）',
+    prompt: 'songs 里装着三首歌。\n\n把编辑器里那行的 "???" 换成正确的东西，让程序挨个把三首歌打印出来。\n\n（预期输出三行：稻香 / 晴天 / 七里香）',
     starterCode: 'songs = ["稻香", "晴天", "七里香"]\n\n# 把 "???" 换成正确的东西\nfor s in "???":\n    print(s)\n',
     requires: ['for', 'list'],
     tests: [
