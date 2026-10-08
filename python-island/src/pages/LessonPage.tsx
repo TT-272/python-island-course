@@ -28,6 +28,7 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
   const [passed, setPassed] = useState(() => isDone(progress, id));
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [bonusOpen, setBonusOpen] = useState(false);
+  const [taskOpen, setTaskOpen] = useState(false);
   // 切关卡时把这一关的界面状态重置干净：上一关的代码、运行结果、提示、答案都不该跟过来。
   // 例外：lesson.continuesFrom 声明了「这一关接着上一关写」时，保留编辑器里的代码。
   const prevLessonId = useRef<string | null>(null);
@@ -44,6 +45,7 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
     setHintCount(progress.lessons[lesson.id]?.hintsUsed ?? 0);
     setAnswerOpen(false);
     setBonusOpen(false);
+    setTaskOpen(false);
     setPassed(isDone(progress, lesson.id));
     setToasts([]);
   }, [lesson, id, progress]);
@@ -243,13 +245,20 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
               )}
               {result?.fatal && <div className="err">{result.fatal}</div>}
             </div>
-            <div className="exercise">
-              <h3>你的任务</h3>
-              <div className="prompt">{lesson.exercise.prompt}</div>
-              {bugSpot && bugAt >= 0 && (
-                <div className="bugwrap">
-                  <div className="bugcode">{lesson.exercise.starterCode.slice(0, bugAt)}<span className="bugspot">{bugSpot.at}</span>{lesson.exercise.starterCode.slice(bugAt + bugSpot.at.length)}</div>
-                  <div className="bugnote">↑ {bugSpot.note}</div>
+            <div className={'taskbubble' + (taskOpen ? ' open' : '')}>
+              <button className="taskbubble-btn" onClick={() => setTaskOpen((v) => !v)}>
+                <span className="taskbubble-title">📋 你的任务</span>
+                <span className="taskbubble-arrow">{taskOpen ? '收起 ▴' : '点开看要求 ▾'}</span>
+              </button>
+              {taskOpen && (
+                <div className="exercise taskbubble-body">
+                  <div className="prompt">{lesson.exercise.prompt}</div>
+                  {bugSpot && bugAt >= 0 && (
+                    <div className="bugwrap">
+                      <div className="bugcode">{lesson.exercise.starterCode.slice(0, bugAt)}<span className="bugspot">{bugSpot.at}</span>{lesson.exercise.starterCode.slice(bugAt + bugSpot.at.length)}</div>
+                      <div className="bugnote">↑ {bugSpot.note}</div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

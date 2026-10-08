@@ -280,3 +280,14 @@ h2.ltitle{font-family:var(--pixel);font-size:26px;color:#fff;margin:0 0 14px;lin
 .q-explain.ok{border-color:var(--green)}
 .q-explain.bad{border-color:var(--red)}
 .exam-result .pass, .exam-result.pass b{color:#dff3c8}
+
+/* ---------------- 任务气泡（可点开） ---------------- */
+.taskbubble{margin-top:16px}
+.taskbubble-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#111c26;border:3px solid var(--blue);color:#9fd3ff;font:inherit;font-size:14px;
+  padding:11px 14px;cursor:pointer;text-align:left}
+.taskbubble-btn:hover{background:#132231}
+.taskbubble-title{font-family:var(--pixel);font-size:13px;color:#bfe0ff}
+.taskbubble-arrow{font-size:12.5px;color:var(--dim);flex:none}
+.taskbubble.open .taskbubble-btn{border-bottom:0}
+.taskbubble-body{margin-top:0;border-top:0}
