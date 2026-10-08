@@ -57,6 +57,7 @@ export function RegionExamPage({ id, go }: { id: string; go: (to: string) => voi
       stdin: extra!.coding.stdin,
       tests: extra!.coding.tests,
       requires: extra!.coding.requires,
+      softChecks: extra!.coding.softChecks,
     });
     setResult(r);
     const codingOk = r.ok && r.tests.length > 0 && r.tests.every((t) => t.passed);
@@ -147,10 +148,18 @@ export function RegionExamPage({ id, go }: { id: string; go: (to: string) => voi
 
           {result && (
             <div className="term" style={{ marginTop: 12 }}>
+              {extra.coding.stdin != null && (
+                <div className="hint">▸ 这一关用了 input()：真实程序会停下来等你打字；这里系统自动替你输入「{extra.coding.stdin}」。</div>
+              )}
               {result.error && <div className="err">✗ {result.error.friendly}</div>}
               {result.timedOut && <div className="warn">⏱ 运行太久了，可能有死循环。</div>}
               {!result.error && !result.timedOut && (
                 <div>{result.stdout || <span className="hint">（没有输出）</span>}</div>
+              )}
+              {result.notes && result.notes.length > 0 && (
+                <div className="notes">
+                  {result.notes.map((n, i) => <div key={i} className="note">💡 {n}</div>)}
+                </div>
               )}
               {result.tests.length > 0 && (
                 <div className="tests">

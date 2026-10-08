@@ -66,7 +66,7 @@ def _check_requires(code, requires):
     if not missing:
         return []
     names = "、".join(label for label, _ in missing)
-    return ["代码检查：这道题需要真的用到 %s —— 输出对了但没用到也不算过。" % names]
+    return ["建议：这道题想让你练的是 %s；你这次没用到，确认一下是不是漏了（用别的方式解决也行）。" % names]
 
 
 def _clean(msg):
@@ -74,7 +74,7 @@ def _clean(msg):
     return _LOC_RE.sub("", msg).strip()
 
 
-def _run(code, stdin_text, tests, requires=None):
+def _run(code, stdin_text, tests, requires=None, soft_checks=None):
     out = io.StringIO()
     old_out, old_in = sys.stdout, sys.stdin
     sys.stdout = out
@@ -90,7 +90,7 @@ def _run(code, stdin_text, tests, requires=None):
         sys.stdout, sys.stdin = old_out, old_in
     ms = int((time.time() - t0) * 1000)
 
-    res = {"stdout": out.getvalue(), "ms": ms, "error": None, "tests": []}
+    res = {"stdout": out.getvalue(), "ms": ms, "error": None, "tests": [], "notes": []}
 
     if err is not None:
         lineno = getattr(err, "lineno", None)          # SyntaxError / IndentationError 自带行号
@@ -108,9 +108,9 @@ def _run(code, stdin_text, tests, requires=None):
         }
         return json.dumps(res, ensure_ascii=False)
 
-    # AST 代码检查：输出对了但没用到题目要求的结构，也不算过
+    # 结构建议：没用到题目想练的构造时，只给提示，不拦截 —— 给不同解法留空间
     for msg in _check_requires(code, requires):
-        res["tests"].append({"name": "代码检查", "passed": False, "detail": msg})
+        res["notes"].append(msg)
 
     # 测试用例里可以引用 _stdout 和 _code，也能直接读学员定义的变量
     ns["_stdout"] = res["stdout"]
@@ -130,4 +130,12 @@ def _run(code, stdin_text, tests, requires=None):
                 "name": name, "passed": False,
                 "detail": "%s: %s" % (type(e).__name__, _clean(str(e))),
             })
+    # 软检查：没通过只在提示区说一句，不判失败（用于"建议用某写法"这类引导）
+    for i, t in enumerate(soft_checks or []):
+        name = t.get("name") or ("建议 %d" % (i + 1))
+        try:
+            exec(compile(t["code"], "<soft>", "exec"), ns)
+        except BaseException as e:
+            detail = _clean(str(e)) or "建议再检查一下这种写法"
+            res["notes"].append("%s：%s" % (name, detail))
     return json.dumps(res, ensure_ascii=False)

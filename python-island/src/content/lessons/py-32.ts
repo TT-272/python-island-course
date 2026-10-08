@@ -14,7 +14,7 @@ export const py32: Lesson = {
     { t: 'code', lang: 'python', code: 'for i in range(5):\n    print(i)      # 0 1 2 3 4 —— 没有 5\n\nfor i in range(1, 5):\n    print(i)      # 1 2 3 4 —— 也没有 5' },
     { t: 'p', text: '右边那个数字本身永远不包含。想打印到 5，就得写 range(6)，或者 range(1, 6)。' },
     { t: 'p', text: '坑二：死循环。while 的条件如果永远成立，程序就永远停不下来：' },
-    { t: 'code', lang: 'python', code: 'n = 1\nwhile n <= 5:\n    print(n)\n    # 忘了 n = n + 1 → 这一行下面全是 1，永远停不下来' },
+    { t: 'code', lang: 'python', code: 'n = 1\nwhile n <= 5:\n    print(n)\n    # 忘了 n = n + 1 → 这一行下面全是 1，永远停不下来', demo: true, demoNote: '这是死循环的反面例子，直接跑会卡住（千万别跑！）' },
     { t: 'tip', text: '写 while 的时候，养成一个习惯：写完先问自己一句"什么东西在变？它早晚会让条件不成立吗？" 答不上来，多半就是死循环。' },
     { t: 'key', text: 'range(5) 给的是 0~4；忘了更新条件就是死循环。' },
   ],

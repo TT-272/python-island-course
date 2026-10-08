@@ -6,7 +6,12 @@ export function Blocks({ blocks }: { blocks: Block[] }) {
     <div className="blocks">
       {blocks.map((b, i) => {
         if (b.t === 'p') return <p key={i}>{b.text}</p>;
-        if (b.t === 'code') return <div key={i} className="code">{b.code}</div>;
+        if (b.t === 'code') return (
+          <div key={i} className={'code' + (b.demo ? ' demo' : '')}>
+            {b.demo && <div className="demo-note">⚠️ {b.demoNote ?? '演示片段：依赖上文 / 会故意报错，别直接运行'}</div>}
+            {b.code}
+          </div>
+        );
         if (b.t === 'key') return <div key={i} className="keyblk"><span className="keytag">重点</span><span>{b.text}</span></div>;
         return <div key={i} className="tip">{b.text}</div>;
       })}

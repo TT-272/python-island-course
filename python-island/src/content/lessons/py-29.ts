@@ -18,7 +18,7 @@ export const py29: Lesson = {
     { t: 'key', text: 'while 只要条件成立就一直跑，记得在循环里让条件变化。' },
   ],
   exercise: {
-    prompt: '用 while 倒数：打印 5、4、3、2、1，一行一个。\n\n（从 5 开始，每圈减 1，减到 0 就停。减 1 要用简写 n -= 1）',
+    prompt: '用 while 倒数：打印 5、4、3、2、1，一行一个。\n\n（从 5 开始，每圈减 1，减到 0 就停。这一关练的是简写 n -= 1，建议用它）',
     starterCode: '# 用 while 倒数：5 → 1，一行一个\n# 提示：n 从 5 开始，每圈用简写 n -= 1 减 1，条件是 n >= 1\n\n',
     requires: ['while'],
     tests: [
@@ -30,6 +30,8 @@ export const py29: Lesson = {
         name: '从 5 数到 1',
         code: '_n = [x.strip() for x in _stdout.strip().split("\\n") if x.strip()]\nassert len(_n) == 5, "先让程序输出正好五行"\nassert _n == ["5", "4", "3", "2", "1"], f"应该依次输出 5 4 3 2 1，你输出的是 {_n}"',
       },
+    ],
+    softChecks: [
       {
         name: '用了简写 -=',
         code: 'assert "-=" in _code, "这一关的减 1 要用简写 n -= 1（它跟 n = n - 1 意思一样）"',

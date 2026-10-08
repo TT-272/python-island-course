@@ -11,6 +11,8 @@ export type JudgeResult = {
   error?: { type: string; message: string; line?: number | null; friendly: string };
   timedOut?: boolean;
   fatal?: string;
+  /** 软提示：不判失败，只给「建议用某写法」之类的提醒 */
+  notes?: string[];
 };
 
 export type RunOptions = {
@@ -18,6 +20,8 @@ export type RunOptions = {
   tests?: TestSpec[];
   /** AST 结构要求：学员代码必须真的用到这些构造（if/for/while/def/input/dict/list/random） */
   requires?: string[];
+  /** 软检查：不通过只出提示、不判失败 */
+  softChecks?: TestSpec[];
   timeoutMs?: number;          // 单次运行上限，默认 6000ms
 };
 
@@ -182,7 +186,7 @@ export class Judge {
       }, timeoutMs);
 
       this.pending.set(id, { resolve, timer });
-      this.worker!.postMessage({ id, code, stdin: opts.stdin ?? '', tests: opts.tests ?? [], requires: opts.requires ?? [] });
+      this.worker!.postMessage({ id, code, stdin: opts.stdin ?? '', tests: opts.tests ?? [], requires: opts.requires ?? [], softChecks: opts.softChecks ?? [] });
     }).then((raw: any) => {
       if (!raw || raw.fatal) {
         return { ok: false, stdout: '', ms: 0, tests: [], fatal: raw?.fatal ?? '引擎异常' } as JudgeResult;
@@ -192,6 +196,7 @@ export class Judge {
         stdout: raw.stdout ?? '',
         ms: raw.ms ?? 0,
         tests: raw.tests ?? [],
+        notes: raw.notes ?? [],
       };
       if (raw.error) {
         // Timeout 的文案在超时分支里已经写好了，别被 translateError 覆盖

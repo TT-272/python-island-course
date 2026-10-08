@@ -14,7 +14,7 @@ export const py03: Lesson = {
     { t: 'p', text: '好消息是：Python 会明确告诉你错在第几行。' },
     { t: 'p', text: '你的任务不是重写，是把它修好。' },
     { t: 'tip', text: '这一关学的东西比 print 重要得多：看懂报错 → 找到问题 → 修好它。这个循环你以后要走几千遍。' },
-    { t: 'code', lang: 'python', code: '# 运行后会看到类似这样一行报错：\n# SyntaxError: unterminated string literal (detected at line 1)\n# 翻译成人话：第 1 行的字符串引号没关上。' },
+    { t: 'code', lang: 'python', code: '# 运行后会看到类似这样一行报错：\n# SyntaxError: unterminated string literal (detected at line 1)\n# 翻译成人话：第 1 行的字符串引号没关上。', demo: true, demoNote: '这是用来演示报错长什么样的，不是能跑的代码' },
     { t: 'key', text: '报错会告诉你错在第几行；引号、括号没配对是最常见的错。' },
   ],
   exercise: {

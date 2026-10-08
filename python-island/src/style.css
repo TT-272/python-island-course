@@ -291,3 +291,13 @@ h2.ltitle{font-family:var(--pixel);font-size:26px;color:#fff;margin:0 0 14px;lin
 .taskbubble-arrow{font-size:12.5px;color:var(--dim);flex:none}
 .taskbubble.open .taskbubble-btn{border-bottom:0}
 .taskbubble-body{margin-top:0;border-top:0}
+
+/* 软提示（不判失败的建议） */
+.notes{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.notes .note{font-size:13px;line-height:1.7;color:#ffe680;border-left:5px solid var(--yellow);
+  background:#221d0c;padding:7px 11px;white-space:pre-wrap;word-break:break-word}
+
+/* 讲解里的"演示片段"（不能直接跑） */
+.blocks .code.demo{border-color:var(--yellow);background:#191b12}
+.blocks .code .demo-note{font-family:var(--body);font-size:12.5px;line-height:1.7;color:#e8dcae;
+  margin-bottom:8px;white-space:normal}

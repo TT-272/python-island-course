@@ -11,7 +11,7 @@ export const py13: Lesson = {
   content: [
     { t: 'p', text: '货架空着要补货，东西不想要了要下架。列表最有用的一点就是它能改。' },
     { t: 'p', text: '四个最常用的动作：' },
-    { t: 'code', lang: 'python', code: '货架.append(东西)       # 加到末尾\n货架.insert(位置, 东西)  # 插到指定位置\n货架.remove(东西)       # 按内容拿掉\n货架.pop()              # 拿掉最后一个' },
+    { t: 'code', lang: 'python', code: '货架.append(东西)       # 加到末尾\n货架.insert(位置, 东西)  # 插到指定位置\n货架.remove(东西)       # 按内容拿掉\n货架.pop()              # 拿掉最后一个', demo: true, demoNote: '这是示意写法，货架和东西都是占位词，直接跑会报错' },
     { t: 'p', text: 'append 是"追加"，insert 是"插入"，remove 是"移除"，pop 是"弹出来" —— 英文名就是它们干的事。' },
     { t: 'p', text: 'remove 和 pop 容易混：remove 是"我知道不要哪个，按内容找"，pop 是"我知道不要第几个，按位置拿"。pop 不填位置就默认拿最后一个。' },
     { t: 'p', text: '注意 insert 有两个参数：先写插到第几格，再写插什么。' },
@@ -21,7 +21,7 @@ export const py13: Lesson = {
     { t: 'key', text: '列表能改：append 加到末尾，insert 插进去，remove / pop 删掉。' },
   ],
   exercise: {
-    prompt: 'shelf 这个货架现在装着 ["苹果", "牛奶"]。\n\n把编辑器里那三个 "???" 换成正确的东西，再加一行用 pop() 把最后一个拿掉。\n\n货架最后应该变成：\n\n[\'鸡蛋\', \'苹果\']\n\n也就是：末尾加上面包、最前面插入鸡蛋、把牛奶拿掉、最后 pop 掉一个。',
+    prompt: 'shelf 这个货架现在装着 ["苹果", "牛奶"]。\n\n把编辑器里那三个 "???" 换成正确的东西，再拿掉最后一个（建议用 pop()，用别的方式拿掉也算对）。\n\n货架最后应该变成：\n\n[\'鸡蛋\', \'苹果\']\n\n也就是：末尾加上面包、最前面插入鸡蛋、把牛奶拿掉、最后 pop 掉一个。',
     starterCode: 'shelf = ["苹果", "牛奶"]\n\n# 把下面三个 "???" 换成题目要求的东西\nshelf.append("???")\nshelf.insert(0, "???")\nshelf.remove("???")\n\n# 再加一行：用 pop() 把最后一个拿掉\n\nprint(shelf)\n',
     requires: ['list'],
     tests: [
@@ -33,6 +33,8 @@ export const py13: Lesson = {
         name: '整个货架打印出来了',
         code: 'assert _stdout.strip().endswith("[\'鸡蛋\', \'苹果\']"), f"最后应该用 print(shelf) 把整个货架打出来，你的程序输出的是 {_stdout.strip()!r}"',
       },
+    ],
+    softChecks: [
       {
         name: '用上了 pop()',
         code: 'assert ".pop(" in _code, "最后要加一行 shelf.pop() —— 它按位置拿，不填位置就是拿掉最后一个"',

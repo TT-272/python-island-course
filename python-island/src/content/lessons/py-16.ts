@@ -10,7 +10,7 @@ export const py16: Lesson = {
   summary: '元组：上锁的列表，改它就会报错',
   content: [
     { t: 'p', text: '有一种列表是上锁的：建好之后，谁也不许改。它叫元组（tuple），用圆括号 ( ) 包起来。' },
-    { t: 'code', lang: 'python', code: 'point = (3, 5)\nprint(point[0])   # 3      取值没问题\npoint[0] = 9      # 报错！元组不让改' },
+    { t: 'code', lang: 'python', code: 'point = (3, 5)\nprint(point[0])   # 3      取值没问题\npoint[0] = 9      # 报错！元组不让改', demo: true, demoNote: '这段里第二行是故意报错的例子（元组不让改）' },
     { t: 'p', text: '取值可以，改不行。那真要改怎么办？先把它变成列表 —— 这就是你学过的变形术：' },
     { t: 'code', lang: 'python', code: 'point = (3, 5)\npoint = list(point)   # 元组 → 列表\npoint[1] = 9\nprint(point)          # [3, 9]' },
     { t: 'p', text: 'list() 跟 int()、str() 是一家人，只不过这次变的是"元组变列表"。' },

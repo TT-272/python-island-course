@@ -10,7 +10,7 @@ export const py09: Lesson = {
   summary: 'int() float() str() 和 f-string：在数字和文字之间变来变去',
   content: [
     { t: 'p', text: '现在你知道 Python 里有数字，也有文字。麻烦的是：这两家人不能直接混着用。' },
-    { t: 'code', lang: 'python', code: 'print("我今年" + 18)   # 报错！' },
+    { t: 'code', lang: 'python', code: 'print("我今年" + 18)   # 报错！', demo: true, demoNote: '这段是故意报错的例子，别直接跑' },
     { t: 'p', text: '报错的原因是：文字和数字拼不到一起。得先把 18 变成文字。' },
     { t: 'p', text: '这时候就该变形术上场了。三个函数，把值从一种类型变成另一种：' },
     { t: 'code', lang: 'python', code: 'int("42")      # 文字 "42"   →  整数 42\nfloat("3.14")  # 文字 "3.14" →  小数 3.14\nstr(42)        # 整数 42     →  文字 "42"' },
@@ -39,6 +39,8 @@ export const py09: Lesson = {
         name: '第四行是 编号42',
         code: 'assert _n[3] == "编号42", f"第四行应该是 编号42，你写的是 {_n[3]!r}"',
       },
+    ],
+    softChecks: [
       {
         name: '第四行用了 f-string',
         code: 'assert ("f\'" in _code) or (\'f"\' in _code), "第四行要用 f-string 写：引号前面加个 f，变量放进花括号"',

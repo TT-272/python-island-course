@@ -97,6 +97,7 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
       tests: ex.tests,
       // 进阶题暂不设结构要求（BonusExercise 没有 requires 字段）
       requires: !bonus ? lesson!.exercise.requires : undefined,
+      softChecks: !bonus ? lesson!.exercise.softChecks : undefined,
     });
     setResult(r);
     setBusy('');
@@ -158,6 +159,7 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
     if (result.tests.length) {
       for (const t of result.tests) parts.push((t.passed ? '✓ ' : '✗ ') + t.name + (t.passed ? '' : (t.detail ? ' —— ' + t.detail : '')));
     }
+    if (result.notes && result.notes.length) for (const n of result.notes) parts.push("💡 " + n);
     return parts.join('\n');
   })();
 
@@ -224,6 +226,11 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
 
             <div className="term" style={{ marginTop: 12 }}>
               {!result && <span className="hint">点「运行」看看结果 —— 运行是免费的，随便试。</span>}
+              {lesson.exercise.stdin != null && (
+                <div className="hint" style={{ marginTop: result ? 8 : 0 }}>
+                  ▸ 这一关用了 input()：真实程序跑到这里会停下来等你打字；这里系统会自动替你输入「{lesson.exercise.stdin}」，所以你不用手动敲。
+                </div>
+              )}
               {stages}
               {result && result.tests.length > 0 && (
                 <div className="tests">
@@ -241,6 +248,11 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
                   {result.ok && result.tests.every((t) => t.passed) && (
                     <div className="ok" style={{ marginTop: 8 }}>🎉 全部通过 · {result.ms} ms</div>
                   )}
+                </div>
+              )}
+              {result && result.notes && result.notes.length > 0 && (
+                <div className="notes">
+                  {result.notes.map((n, i) => <div key={i} className="note">💡 {n}</div>)}
                 </div>
               )}
               {result?.fatal && <div className="err">{result.fatal}</div>}

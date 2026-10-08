@@ -14,7 +14,7 @@ export const py26: Lesson = {
     { t: 'p', text: '规矩是这样：' },
     { t: 'p', text: '1. 用 input() 问一句：这是什么垃圾？\n2. 回答是 塑料瓶 或 纸箱 → 打印 可回收\n3. 回答是 电池 → 打印 有害\n4. 其他回答 → 打印 不确定' },
     { t: 'p', text: '零件对应：input() 问话，if / elif / else 分岔，in 一次问好几样东西。' },
-    { t: 'code', lang: 'python', code: 'if item in ["塑料瓶", "纸箱"]:\n    print("可回收")' },
+    { t: 'code', lang: 'python', code: 'if item in ["塑料瓶", "纸箱"]:\n    print("可回收")', demo: true, demoNote: '这段用了变量 item，单独跑会报错' },
     { t: 'p', text: '这一关要处理三样垃圾。麻烦的是：你还不会循环，所以只能把同一段判断手写三遍。' },
     { t: 'tip', text: '别嫌烦 —— 记住这种"明明一样却要抄三遍"的感觉。下一关你就会学到让它只写一遍的东西。' },
     { t: 'key', text: 'if / elif / else 从上往下排队，第一个成立的才执行。' },

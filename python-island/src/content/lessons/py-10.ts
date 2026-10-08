@@ -16,7 +16,7 @@ export const py10: Lesson = {
     { t: 'p', text: '想拿数字，得套上上一关的变形术：age = int(input("你多大了？"))' },
     { t: 'tip', text: '因为这个"永远是文字"的脾气，无数新手第一次做计算题时被卡住。记住它，你就领先一半人了。' },
     { t: 'p', text: '把"永远是文字"这个坑看得再清楚一点：' },
-    { t: 'code', lang: 'python', code: 'age = input("你多大了？")   # 用户打 18\n# print(age + 1)              # 会报错：age 是文字 "18"，不能加数字\nprint(int(age) + 1)         # 19  先变成整数，才能算' },
+    { t: 'code', lang: 'python', code: 'age = input("你多大了？")   # 用户打 18\n# print(age + 1)              # 会报错：age 是文字 "18"，不能加数字\nprint(int(age) + 1)         # 19  先变成整数，才能算', demo: true, demoNote: '这段会等你输入（演示用），注释里还演示了会报错的写法' },
     { t: 'key', text: 'input() 拿回来的永远是文字，哪怕用户输入的是数字；想要数字要套 int() 或 float()。' },
   ],
   exercise: {

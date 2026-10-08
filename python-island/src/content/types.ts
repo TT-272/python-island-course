@@ -1,6 +1,6 @@
 export type Block =
   | { t: 'p'; text: string }
-  | { t: 'code'; lang: 'python'; code: string }
+  | { t: 'code'; lang: 'python'; code: string; demo?: boolean; demoNote?: string }
   | { t: 'tip'; text: string }
   /** 重点：本关必须记住的知识点 */
   | { t: 'key'; text: string };
@@ -29,6 +29,8 @@ export type Exercise = {
   stdin?: string;
   /** AST 结构要求：学员代码必须真的用到这些构造才判过（见 runner.py 的白名单） */
   requires?: string[];
+  /** 软检查：不通过只给提示、不判失败（适合「建议用某写法」这类引导） */
+  softChecks?: TestSpec[];
   tests: TestSpec[];
   hints: string[];
   solution: string;
