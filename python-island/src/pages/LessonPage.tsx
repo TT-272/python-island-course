@@ -193,8 +193,55 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
                 <b>你要补的</b>：
                 {lesson.type === 'debug'
                   ? '把起手代码里出错的地方改掉。'
-                  : '在起手代码的基础上，把下面「你的任务」要求的东西补出来。'}
+                  : '在起手代码的基础上，把「你的任务」要求的东西补出来。'}
               </div>
+            </div>
+          </div>
+
+          {/* 右：编辑器 + 终端 */}
+          <div className="right">
+            <div className="editorwrap">
+              <CodeEditor value={code} onChange={setCode} height={340} />
+            </div>
+            <div className="toolbar">
+              <button className="btn ghost sm" style={{ marginRight: 'auto' }}
+                      onClick={() => setCode('')} disabled={!!busy}>
+                清空
+              </button>
+              <button className="btn ghost sm" style={{ marginRight: 'auto' }}
+                      onClick={() => setCode(lesson.exercise.starterCode)} disabled={!!busy}>
+                重置
+              </button>
+              <button className="btn ghost" onClick={() => run()} disabled={!!busy}>
+                {busy === 'run' ? '运行中…' : '▶ 运行'}
+              </button>
+              <button className="btn primary" onClick={() => submit()} disabled={!!busy}>
+                {busy === 'submit' ? '判分中…' : '✓ 提交'}
+              </button>
+            </div>
+
+            <div className="term" style={{ marginTop: 12 }}>
+              {!result && <span className="hint">点「运行」看看结果 —— 运行是免费的，随便试。</span>}
+              {stages}
+              {result && result.tests.length > 0 && (
+                <div className="tests">
+                  {result.tests.map((t, i) => (
+                    <div className="test" key={i}>
+                      <span className="flag" style={{ color: t.passed ? 'var(--green)' : 'var(--red)' }}>
+                        {t.passed ? '✓' : '✗'}
+                      </span>
+                      <span>
+                        {t.name}
+                        {!t.passed && t.detail && <><br /><span className="err">{t.detail}</span></>}
+                      </span>
+                    </div>
+                  ))}
+                  {result.ok && result.tests.every((t) => t.passed) && (
+                    <div className="ok" style={{ marginTop: 8 }}>🎉 全部通过 · {result.ms} ms</div>
+                  )}
+                </div>
+              )}
+              {result?.fatal && <div className="err">{result.fatal}</div>}
             </div>
             <div className="exercise">
               <h3>你的任务</h3>
@@ -256,53 +303,6 @@ export function LessonPage({ id, go }: { id: string; go: (to: string) => void })
                 </div>
               </div>
             )}
-          </div>
-
-          {/* 右：编辑器 + 终端 */}
-          <div className="right">
-            <div className="editorwrap">
-              <CodeEditor value={code} onChange={setCode} height={340} />
-            </div>
-            <div className="toolbar">
-              <button className="btn ghost sm" style={{ marginRight: 'auto' }}
-                      onClick={() => setCode('')} disabled={!!busy}>
-                清空
-              </button>
-              <button className="btn ghost sm" style={{ marginRight: 'auto' }}
-                      onClick={() => setCode(lesson.exercise.starterCode)} disabled={!!busy}>
-                重置
-              </button>
-              <button className="btn ghost" onClick={() => run()} disabled={!!busy}>
-                {busy === 'run' ? '运行中…' : '▶ 运行'}
-              </button>
-              <button className="btn primary" onClick={() => submit()} disabled={!!busy}>
-                {busy === 'submit' ? '判分中…' : '✓ 提交'}
-              </button>
-            </div>
-
-            <div className="term" style={{ marginTop: 12 }}>
-              {!result && <span className="hint">点「运行」看看结果 —— 运行是免费的，随便试。</span>}
-              {stages}
-              {result && result.tests.length > 0 && (
-                <div className="tests">
-                  {result.tests.map((t, i) => (
-                    <div className="test" key={i}>
-                      <span className="flag" style={{ color: t.passed ? 'var(--green)' : 'var(--red)' }}>
-                        {t.passed ? '✓' : '✗'}
-                      </span>
-                      <span>
-                        {t.name}
-                        {!t.passed && t.detail && <><br /><span className="err">{t.detail}</span></>}
-                      </span>
-                    </div>
-                  ))}
-                  {result.ok && result.tests.every((t) => t.passed) && (
-                    <div className="ok" style={{ marginTop: 8 }}>🎉 全部通过 · {result.ms} ms</div>
-                  )}
-                </div>
-              )}
-              {result?.fatal && <div className="err">{result.fatal}</div>}
-            </div>
           </div>
 
           {/* AI 老师：右侧聊天栏 */}
